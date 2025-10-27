@@ -1,62 +1,3 @@
-/* * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #E9E9E9;
-    color: #333;
-}
-
-/* Header */
-/* .header {
-    background-color: #007AFF;
-    color: #ffffff;
-    width: 100%;
-    padding: 20px 0px;
-} */
-
-/* .logo-container {
-    width: 80%;
-    margin: 0px auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-} */
-
-/* .logo-container img {
-    width: 24px;
-    height: 24px;
-} */
-
-/* .logo-container span {
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-    letter-spacing: 1px;
-} */
-
-/* .nav-menu {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    width: 100%;
-    gap: 40px;
-}
-
-.nav-menu a {
-    color: white;
-    text-decoration: none;
-    font-size: 20px;
-}
-
-.nav-menu a:hover,
-.nav-menu a.active {
-    text-decoration: underline;
-} */
-
 /* Main Container */
 .main-container {
     max-width: 1200px;
@@ -110,7 +51,6 @@ body {
 }
 
 .specialty-card {
-    /* background-color: white; */
     background-color: #E1E1E1;
     border-radius: 10px;
     overflow: hidden;

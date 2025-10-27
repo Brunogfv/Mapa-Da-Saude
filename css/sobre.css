@@ -23,11 +23,11 @@
 }
 
 .titulo h2 {
-    font-size: 62px;
+    font-size: 40px;
 }
 
 .titulo p {
-    font-size: 32px;
+    font-size: 20px;
     width: 65%;
 }
 
@@ -53,11 +53,11 @@
 
 .conteudo-box h3 {
     color: #007AFF;
-    font-size: 64px;
+    font-size: 40px;
 }
 
 .conteudo-box p {
-    font-size: 28px;
+    font-size: 20px;
 }
 
 .conteudo-box-texto {
