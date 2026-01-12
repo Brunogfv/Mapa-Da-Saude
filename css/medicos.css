@@ -46,6 +46,51 @@
     cursor: pointer;
 }
 
+.medicos {
+    width: 80%;
+    margin: 40px auto;
+}
+
+.medicos h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.medicos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.medico-card {
+    background: #e1e1e1;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.medico-card:hover {
+    transform: translateY(-5px);
+}
+
+.medico-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.medico-card button {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background: #007aff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
 /* Flex de Especialidades */
 .specialties-grid {
     display: flex;
@@ -75,7 +120,7 @@
     }
 }
 
-.doctors-grid {
+/* .doctors-grid {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -110,7 +155,7 @@
     width: 433px;
     object-fit: cover;
     border-radius: 35px 35px 0px 0px;
-}
+} */
 
 .specialty-card {
     background-color: white;
@@ -159,7 +204,7 @@
     line-height: 1.4;
 }
 
-.view-btn {
+/* .view-btn {
     color: #3a50e0;
     text-decoration: none;
     font-weight: bold;
@@ -168,4 +213,4 @@
 
 .view-btn:hover {
     text-decoration: underline;
-}
+} */
