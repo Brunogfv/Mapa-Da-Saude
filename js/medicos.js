@@ -2,34 +2,37 @@ const medicos = [
     {
         id: 1,
         nome: "Dra. Ana Souza",
-        especialidade: "Pediatria",
+        especialidade: "pediatria",
         imagem: "./imgs/ana.jpg",
         descricao: "Atendimento especializado para crianças e adolescentes."
     },
     {
         id: 2,
         nome: "Dr. Luiz Oliveira",
-        especialidade: "Cardiologia",
+        especialidade: "cardiologia",
         imagem: "./imgs/luiz.jpg",
         descricao: "Especialista em saúde do coração."
     },
     {
         id: 3,
         nome: "Dra. Camila Santos",
-        especialidade: "Pediatria",
+        especialidade: "clinica-geral",
         imagem: "./imgs/camila.jpg",
         descricao: "Acompanhamento pediátrico completo."
     },
     {
         id: 4,
         nome: "Dr. Roberto Silva",
-        especialidade: "Dentista",
+        especialidade: "dentista",
         imagem: "./imgs/roberto.jpg",
         descricao: "Cuidados odontológicos modernos."
     }
 ];
 
 const container = document.getElementById("medicosContainer");
+
+const params = new URLSearchParams(window.location.search);
+const especialidadeSelecionada = params.get("especialidade");
 
 medicos.forEach(medico => {
     const card = document.createElement("div");
@@ -49,32 +52,30 @@ medicos.forEach(medico => {
     container.appendChild(card);
 });
 
-const params = new URLSearchParams(window.location.search);
-const especialidadeSelecionada = params.get("especialidade");
 
 // const container = document.getElementById("medicos-container");
 
-// function carregarMedicos () {
-//     container.innerHTML = "";
+function carregarMedicos () {
+    container.innerHTML = "";
 
     const filtrados = especialidadeSelecionada ? medicos.filter(m => m.especialidade === especialidadeSelecionada) : medicos;
 
-//     filtrados.forEach(m => {
-//         const card = document.createElement("div");
-//         card.className = "medico-card";
+    filtrados.forEach(m => {
+        const card = document.createElement("div");
+        card.className = "medico-card";
 
-//         card.innerHTML = `
-//             <img src="${m.foto}">
-//             <h3>${m.nome}</h3>
-//             <p>${m.especialidade}</p>
-//         `;
+        card.innerHTML = `
+            <img src="${m.imagem}">
+            <h3>${m.nome}</h3>
+            <p>${m.especialidade}</p>
+        `;
 
-//         card.onclick = () => {
-//             window.location.href = `medico.html?id=${m.id}`;
-//         };
+        card.onclick = () => {
+            window.location.href = `medico.html?id=${m.id}`;
+        };
 
-//         container.appendChild(card);
-//     });
-// }
+        container.appendChild(card);
+    });
+}
 
-// carregarMedicos();
+carregarMedicos();
