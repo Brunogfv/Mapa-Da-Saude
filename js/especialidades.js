@@ -19,18 +19,26 @@ const especialidades = [
 
 const container = document.getElementById("especialidades-container");
 
-especialidades.forEach(esp => {
-    const card = document.createElement("div");
-    card.className = "especialidade-card";
+document.querySelectorAll(".specialty-card").forEach(card => {
+    card.addEventListener("click", () => {
+        const especialidade = card.dataset.especialidade;
 
-    card.innerHTML = `
-        <img src="${esp.imagem}">
-        <h3>${esp.nome}</h3>
-    `;
-
-    card.onclick = () => {
-        window.location.href = `medicos.html?especialidade=${encodeURIComponent(esp.nome)}`
-    };
-
-    container.appendChild(card);
+        window.location.href = `medicos.html?especialidade=${encodeURIComponent(especialidade)}`;
+    });
 });
+
+// especialidades.forEach(esp => {
+//     const card = document.createElement("div");
+//     card.className = "especialidade-card";
+
+//     card.innerHTML = `
+//         <img src="${esp.imagem}">
+//         <h3>${esp.nome}</h3>
+//     `;
+
+//     card.onclick = () => {
+//         window.location.href = `medicos.html?especialidade=${encodeURIComponent(esp.nome)}`
+//     };
+
+//     container.appendChild(card);
+// });

@@ -2,7 +2,7 @@ const medicos = [
     {
         id: 1,
         nome: "Dra. Ana Souza",
-        especialidade: "Pediatra",
+        especialidade: "Pediatria",
         imagem: "./imgs/ana.jpg",
         descricao: "Atendimento especializado para crianças e adolescentes."
     },
@@ -48,3 +48,33 @@ medicos.forEach(medico => {
 
     container.appendChild(card);
 });
+
+const params = new URLSearchParams(window.location.search);
+const especialidadeSelecionada = params.get("especialidade");
+
+// const container = document.getElementById("medicos-container");
+
+// function carregarMedicos () {
+//     container.innerHTML = "";
+
+    const filtrados = especialidadeSelecionada ? medicos.filter(m => m.especialidade === especialidadeSelecionada) : medicos;
+
+//     filtrados.forEach(m => {
+//         const card = document.createElement("div");
+//         card.className = "medico-card";
+
+//         card.innerHTML = `
+//             <img src="${m.foto}">
+//             <h3>${m.nome}</h3>
+//             <p>${m.especialidade}</p>
+//         `;
+
+//         card.onclick = () => {
+//             window.location.href = `medico.html?id=${m.id}`;
+//         };
+
+//         container.appendChild(card);
+//     });
+// }
+
+// carregarMedicos();
