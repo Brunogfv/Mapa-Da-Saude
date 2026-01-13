@@ -1,0 +1,37 @@
+.medico-detalhe {
+    display: flex;
+    justify-content: center;
+    padding: 50px 20px;
+}
+
+.medico-container {
+    max-width: 900px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    gap: 30px;
+}
+
+.medico-foto img {
+    width: 280px;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.medico-info h2 {
+    font-size: 32px;
+}
+
+.medico-info h4 {
+    color: #007aff;
+    margin-bottom: 15px;
+}
+
+.medico-info p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+

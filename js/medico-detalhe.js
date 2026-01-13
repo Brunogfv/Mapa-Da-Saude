@@ -1,3 +1,6 @@
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
 const medicos = [
     {
         id: 1,
@@ -29,22 +32,11 @@ const medicos = [
     }
 ];
 
-const container = document.getElementById("medicosContainer");
+const medico = medicos.find(m => m.id == id);
 
-medicos.forEach(medico => {
-    const card = document.createElement("div");
-    card.classList.add("medico-card");
-
-    card.innerHTML = `
-        <img src="${medico.imagem}" alt="${medico.nome}">
-        <h3>${medico.nome}</h3>
-        <p>${medico.especialidade}</p>
-        <button>Ver detalhes</button>
-    `;
-
-    card.querySelector("button").addEventListener("click", () => {
-        window.location.href = `medico.html?id=${medico.id}`;
-    });
-
-    container.appendChild(card);
-});
+if (medico) {
+    document.getElementById("foto").src = medico.imagem;
+    document.getElementById("nome").textContent = medico.nome;
+    document.getElementById("especialidade").textContent = medico.especialidade;
+    document.getElementById("descricao").textContent = medico.descricao;
+}
