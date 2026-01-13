@@ -43,6 +43,21 @@
     flex: 1 1 calc(50% - 10px);
 }
 
+.pagina-medicos .medicos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.filtro-especialidade .medico-card {
+    max-width: 320px;
+    margin: 0 auto;
+}
+
+.pagina-medicos.filtro-especialidade .medicos-grid {
+    justify-content: center;
+}
+
 .medico-card {
     background: #ffffff;
     border-radius: 12px;

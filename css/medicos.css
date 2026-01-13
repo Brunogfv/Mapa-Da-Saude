@@ -68,6 +68,7 @@
     padding: 20px;
     text-align: center;
     transition: 0.3s;
+    cursor: pointer;
 }
 
 .medico-card:hover {

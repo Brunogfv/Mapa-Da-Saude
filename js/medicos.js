@@ -34,6 +34,10 @@ const container = document.getElementById("medicosContainer");
 const params = new URLSearchParams(window.location.search);
 const especialidadeSelecionada = params.get("especialidade");
 
+if (especialidadeSelecionada) {
+    document.body.classList.add("filtro-especialidade");
+}
+
 medicos.forEach(medico => {
     const card = document.createElement("div");
     card.classList.add("medico-card");
