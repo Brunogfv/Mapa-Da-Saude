@@ -1,9 +1,27 @@
 const db = require("../database/db");
 
 exports.listar = (req, res) => {
-    const sql = "SELECT * FROM medicos";
+    const { especialidade } = req.query;
 
-    db.all(sql, [], (err, rows) => {
+    let sql = `
+        SELECT
+            m.id,
+            m.nome,
+            m.foto,
+            e.nome AS especialidade,
+            e.slug
+        FROM medicos m
+        JOIN especialidades e ON e.id = m.especialidade_id
+    `;
+
+    const params = [];
+
+    if (especialidade) {
+        sql += " WHERE e.slug = ?";
+        params.push(especialidade);
+    }
+
+    db.all(sql, params, (err, rows) => {
         if (err) {
             return res.status(500).json({ erro: err.message });
         }

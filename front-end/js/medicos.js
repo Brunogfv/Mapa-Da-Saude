@@ -30,6 +30,7 @@ const medicos = [
 ];
 
 const container = document.getElementById("medicosContainer");
+const titulo = document.getElementById("")
 
 const params = new URLSearchParams(window.location.search);
 const especialidadeSelecionada = params.get("especialidade");
