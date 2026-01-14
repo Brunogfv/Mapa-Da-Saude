@@ -55,3 +55,87 @@ footer {
     margin-top: 50px;
     width: 100%;
 }
+
+@media (max-width: 768px) {
+   
+    header {
+        background-color: #007AFF;
+        color: #ffffff;
+        width: 100%;
+        padding: 10px 0px;
+    }
+
+    header .container {
+        width: 90%;
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    header nav {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        width: 100%;
+        gap: 10px;
+    }
+
+    header nav a {
+        text-decoration: none;
+        color: #ffffff;
+        font-size: 12px;
+    }   
+
+    .container img{
+        width: 100px;
+        height: 30px;
+    }
+
+    footer {
+        background-color: #007AFF;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        font-size: 14px;
+        margin-top: 50px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 414px ) {
+    header {
+        background-color: #000000;
+        color: #ffffff;
+        width: 100%;
+        padding: 10px 0px;
+        display: flex;
+        justify-content: center;
+    }
+
+    header .container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    header nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    footer {
+        background-color: #007AFF;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        font-size: 14px;
+        margin-top: 50px;
+        width: 100%;
+    }
+}
