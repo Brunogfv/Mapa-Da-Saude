@@ -92,6 +92,12 @@
     cursor: pointer;
 }
 
+.medico-card .descricao {
+    font-size: 14px;
+    color: #555555;
+    margin-top: 8px;
+}
+
 /* Flex de Especialidades */
 .specialties-grid {
     display: flex;

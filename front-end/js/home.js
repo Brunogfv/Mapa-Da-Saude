@@ -21,7 +21,7 @@ const especialidades = [
         nome: "Odontologia",
         descricao: "Tratamentos dentários e cuidados com a saúde bucal",
         imagem: "./imgs/odonto.png",
-        slug: "dentista"
+        slug: "teste1"
     },
     {
         nome: "Ginecologia",
