@@ -32,11 +32,11 @@
 //     }
 // ];
 
-// const medico = medicos.find(m => m.id == id);
+const medico = medicos.find(m => m.id == id);
 
-// if (medico) {
-//     document.getElementById("foto").src = medico.imagem;
-//     document.getElementById("nome").textContent = medico.nome;
-//     document.getElementById("especialidade").textContent = medico.especialidade;
-//     document.getElementById("descricao").textContent = medico.descricao;
-// }
+if (medico) {
+    document.getElementById("foto").src = medico.imagem;
+    document.getElementById("nome").textContent = medico.nome;
+    document.getElementById("especialidade").textContent = medico.especialidade;
+    document.getElementById("descricao").textContent = medico.descricao;
+}

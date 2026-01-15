@@ -8,6 +8,7 @@ exports.listar = (req, res) => {
             m.id,
             m.nome,
             m.foto,
+            m.descricao,
             e.nome AS especialidade,
             e.slug
         FROM medicos m
@@ -30,11 +31,11 @@ exports.listar = (req, res) => {
 };
 
 exports.criar = (req, res) => {
-    const { nome, especialidade_id, cidade } = req.body;
+    const { nome, especialidade_id, foto, descricao } = req.body;
 
     const sql = `
-        INSERT INTO medicos (nome, especialidade_id, cidade)
-        VALUES (?, ?, ?)
+        INSERT INTO medicos (nome, especialidade_id, foto, descricao)
+        VALUES (?, ?, ?, ?)
     `;
 
     db.run(sql, [nome, especialidade_id, cidade], function (err) {

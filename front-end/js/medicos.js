@@ -45,6 +45,7 @@ console.log("Especialidade selecionada: ", especialidadeSelecionada);
 fetch(url)
     .then(response => response.json())
     .then(medicos => {
+        console.log(medicos);
         if (medicos.length === 0) {
             container.innerHTML = "<p>Nenhum médico encontrado.</p>";
             return;
@@ -62,7 +63,7 @@ fetch(url)
                 <img src="./imgs/${medico.foto}" alt="${medico.nome}">
                 <h3>${medico.nome}</h3>
                 <p>${medico.especialidade}</p>
-                <p class="descricao">${medico.descricao}</p>
+                <p class="descricao">${medico.descricao || "Descrição não disponível"}</p>
                 <button data-id="${medico.id}">Ver detalhes</button>
             `;
         
@@ -83,6 +84,25 @@ if (especialidadeSelecionada) {
     document.body.classList.add("filtro-especialidade");
 }
 
+
+// Busca
+// const inputBusca = document.getElementById("busca");
+
+// inputBusca.addEventListener("input", () => {
+//     const termo = inputBusca.value.toLowerCase();
+
+//     let resultado = medicos;
+
+//     if (especialidadeSelecionada) {
+//         resultado = resultado.filter(m => 
+//             m.especialidade === especialidadeSelecionada
+//         );
+//     }
+
+//     resultado = resultado.filter(m => 
+//         m.nome.toLowerCase().includes(termo)
+//     );
+// });
 
 
 
