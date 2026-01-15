@@ -45,3 +45,26 @@ exports.criar = (req, res) => {
         req.status(201).json({ id: this.lastID });
     });
 };
+
+exports.buscarPorId = (req, res) => {
+    const { id } = req.params;
+
+    const sql = `
+        SELECT
+            m.id,
+            m.nome,
+            m.foto,
+            m.descricao,
+            e.nome AS especialidade,
+        FROM medicos m
+        JOIN especialidades e ON e.id = m.especialidade_id
+        WHERE m.id = ?
+    `;
+
+    db.get(sql, [id], (err, row) => {
+        if (err) {
+            return res.status(500).json({ erro: err.message });
+        }
+        res.json(row);
+    });
+};
