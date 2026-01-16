@@ -141,6 +141,9 @@ function initPage() {
         criarGuia(),
         criarCards()
     );
+
+    const footer = document.querySelector("footer");
+    document.body.insertBefore(main, footer);
 }
 
 document.addEventListener("DOMContentLoaded", initPage);
