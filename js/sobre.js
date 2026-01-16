@@ -95,6 +95,9 @@ function initSobrePage() {
     const main = document.createElement("main");
     main.appendChild(criarSobre());
     document.body.appendChild(main);
+
+    const footer = document.querySelector("footer");
+    document.body.insertBefore(main, footer);
 }
 
 document.addEventListener("DOMContentLoaded", initSobrePage);
