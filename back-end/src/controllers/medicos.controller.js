@@ -38,11 +38,11 @@ exports.criar = (req, res) => {
         VALUES (?, ?, ?, ?)
     `;
 
-    db.run(sql, [nome, especialidade_id, cidade], function (err) {
+    db.run(sql, [nome, especialidade_id, foto, descricao], function (err) {
         if (err) {
             return res.status(500).json({ erro: err.message });
         }
-        req.status(201).json({ id: this.lastID });
+        res.status(201).json({ id: this.lastID });
     });
 };
 
@@ -55,7 +55,7 @@ exports.buscarPorId = (req, res) => {
             m.nome,
             m.foto,
             m.descricao,
-            e.nome AS especialidade,
+            e.nome AS especialidade
         FROM medicos m
         JOIN especialidades e ON e.id = m.especialidade_id
         WHERE m.id = ?
