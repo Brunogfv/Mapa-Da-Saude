@@ -23,6 +23,8 @@ fetch(`http://localhost:3000/medicos/${id}`)
         console.error("Erro ao carregar médico:", error);
     });
 
+    // Adicionando o certo
+
 // const medicos = [
 //     {
 //         id: 1,
