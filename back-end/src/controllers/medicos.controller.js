@@ -1,7 +1,7 @@
 const db = require("../database/db");
 
 exports.listar = (req, res) => {
-    const { especialidade } = req.query;
+    const { especialidade, nome } = req.query;
 
     let sql = `
         SELECT
@@ -16,10 +16,22 @@ exports.listar = (req, res) => {
     `;
 
     const params = [];
+    const conditions = [];
 
     if (especialidade) {
-        sql += " WHERE e.slug = ?";
+        // sql += " WHERE e.slug = ?";
+        conditions.push("e.slug = ?");
         params.push(especialidade);
+        
+    }
+
+    if (nome) {
+        conditions.push("LOWER(m.nome) LIKE ?");
+        params.push(`%${nome.toLowerCase()}%`);
+    }
+
+    if (conditons.length > 0) {
+        sql += "WHERE" + conditions.join(" AND ");
     }
 
     db.all(sql, params, (err, rows) => {
@@ -38,11 +50,11 @@ exports.criar = (req, res) => {
         VALUES (?, ?, ?, ?)
     `;
 
-    db.run(sql, [nome, especialidade_id, cidade], function (err) {
+    db.run(sql, [nome, especialidade_id, foto, descricao], function (err) {
         if (err) {
             return res.status(500).json({ erro: err.message });
         }
-        req.status(201).json({ id: this.lastID });
+        res.status(201).json({ id: this.lastID });
     });
 };
 
@@ -55,7 +67,7 @@ exports.buscarPorId = (req, res) => {
             m.nome,
             m.foto,
             m.descricao,
-            e.nome AS especialidade,
+            e.nome AS especialidade
         FROM medicos m
         JOIN especialidades e ON e.id = m.especialidade_id
         WHERE m.id = ?

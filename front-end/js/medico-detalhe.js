@@ -5,7 +5,7 @@ if (!id) {
     console.error("ID do médico não informado");
 }
 
-fetch(`http://localhost:3000/medicos${id}`)
+fetch(`http://localhost:3000/medicos/${id}`)
     .then(response => response.json())
     .then(medico => {
         if (!medico) {
@@ -13,7 +13,7 @@ fetch(`http://localhost:3000/medicos${id}`)
             return;
         }
 
-        document.getElementById("foto").src = `./imgs/${medico.foto}`;
+        document.getElementById("foto").src = `../imgs/${medico.foto}`;
         document.getElementById("foto").alt = medico.nome;
         document.getElementById("nome").textContent = medico.nome;
         document.getElementById("especialidade").textContent = medico.especialidade;
@@ -54,11 +54,11 @@ fetch(`http://localhost:3000/medicos${id}`)
 //     }
 // ];
 
-const medico = medicos.find(m => m.id == id);
+// const medico = medicos.find(m => m.id == id);
 
-if (medico) {
-    document.getElementById("foto").src = medico.imagem;
-    document.getElementById("nome").textContent = medico.nome;
-    document.getElementById("especialidade").textContent = medico.especialidade;
-    document.getElementById("descricao").textContent = medico.descricao;
-}
+// if (medico) {
+//     document.getElementById("foto").src = medico.imagem;
+//     document.getElementById("nome").textContent = medico.nome;
+//     document.getElementById("especialidade").textContent = medico.especialidade;
+//     document.getElementById("descricao").textContent = medico.descricao;
+// }
