@@ -62,13 +62,23 @@
     gap: 30px;
 }
 
+body.modo-filtro .medicos-container {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
+    justify-content: center;
+}
+
 .medico-card {
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    
     background: #e1e1e1;
     border-radius: 20px;
     padding: 20px;
     text-align: center;
     transition: 0.3s;
     cursor: pointer;
+    overflow: hidden;
 }
 
 .medico-card:hover {
@@ -134,6 +144,10 @@
     width: 80%;
     margin: auto;
     cursor: pointer;
+}
+
+body.modo-filtro .medicos-container {
+    grid-template-columns: 1fr;
 }
 
 .doctor-card {
@@ -220,4 +234,12 @@
 
 .view-btn:hover {
     text-decoration: underline;
+}
+
+.nenhum-medico {
+    text-align: center;
+    font-size: 18px;
+    color: #555555;
+    grid-column: 1 / -1;
+    margin-top: 40px;
 }

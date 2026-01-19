@@ -34,50 +34,50 @@ const container = document.getElementById("medicosContainer");
 const params = new URLSearchParams(window.location.search);
 const especialidadeSelecionada = params.get("especialidade");
 
-let url = "http://localhost:3000/medicos";
+// let url = "http://localhost:3000/medicos";
 
-if (especialidadeSelecionada) {
-    url += `?especialidade=${especialidadeSelecionada}`;
-}
+// if (especialidadeSelecionada) {
+//     url += `?especialidade=${especialidadeSelecionada}`;
+// }
 
-console.log("Especialidade selecionada: ", especialidadeSelecionada);
+// console.log("Especialidade selecionada: ", especialidadeSelecionada);
 
-fetch(url)
-    .then(response => response.json())
-    .then(medicos => {
-        console.log(medicos);
-        if (medicos.length === 0) {
-            container.innerHTML = "<p>Nenhum médico encontrado.</p>";
-            return;
-        }
+// fetch(url)
+//     .then(response => response.json())
+//     .then(medicos => {
+//         console.log(medicos);
+//         if (medicos.length === 0) {
+//             container.innerHTML = "<p>Nenhum médico encontrado.</p>";
+//             return;
+//         }
 
         // if (especialidadeSelecionada) {
         //     titulo.textContent = `Especialidade: ${medicos[0].especialidade}`;
         // }
 
-        medicos.forEach(medico => {
-            const card = document.createElement("div");
-            card.classList.add("medico-card");
+    //     medicos.forEach(medico => {
+    //         const card = document.createElement("div");
+    //         card.classList.add("medico-card");
         
-            card.innerHTML = `
-                <img src="./imgs/${medico.foto}" alt="${medico.nome}">
-                <h3>${medico.nome}</h3>
-                <p>${medico.especialidade}</p>
-                <p class="descricao">${medico.descricao || "Descrição não disponível"}</p>
-                <button data-id="${medico.id}">Ver detalhes</button>
-            `;
+    //         card.innerHTML = `
+    //             <img src="./imgs/${medico.foto}" alt="${medico.nome}">
+    //             <h3>${medico.nome}</h3>
+    //             <p>${medico.especialidade}</p>
+    //             <p class="descricao">${medico.descricao || "Descrição não disponível"}</p>
+    //             <button data-id="${medico.id}">Ver detalhes</button>
+    //         `;
         
-            card.querySelector("button").onclick = () => {
-                window.location.href = `medico.html?id=${medico.id}`;
-            };
+    //         card.querySelector("button").onclick = () => {
+    //             window.location.href = `medico.html?id=${medico.id}`;
+    //         };
         
-            container.appendChild(card);
-        });
-    })
-    .catch(error => {
-        console.error("Erro ao buscar médicos:", error);
-        container.innerHTML = "<p>Erro ao carregar médicos</p>";
-    });
+    //         container.appendChild(card);
+    //     });
+    // })
+    // .catch(error => {
+    //     console.error("Erro ao buscar médicos:", error);
+    //     container.innerHTML = "<p>Erro ao carregar médicos</p>";
+    // });
     
 
 if (especialidadeSelecionada) {
@@ -86,7 +86,6 @@ if (especialidadeSelecionada) {
 
 
 // Busca
-// const inputBusca = document.getElementById("busca");
 
 // inputBusca.addEventListener("input", () => {
 //     const termo = inputBusca.value.toLowerCase();
@@ -104,29 +103,73 @@ if (especialidadeSelecionada) {
 //     );
 // });
 
+const inputBusca = document.getElementById("buscaNome");
 
+inputBusca.addEventListener("input", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    carregarMedicos();
+});
 
-// function carregarMedicos () {
-//     container.innerHTML = "";
+document.getElementById("btnBuscar").addEventListener("click", () => {
+    carregarMedicos();
+});
 
-//     const filtrados = especialidadeSelecionada ? medicos.filter(m => m.especialidade === especialidadeSelecionada) : medicos;
+const temFiltro = especialidadeSelecionada || params.get("busca");
 
-//     filtrados.forEach(m => {
-//         const card = document.createElement("div");
-//         card.className = "medico-card";
+if (temFiltro) {
+    document.body.classList.add("modo-filtro");
+}
 
-//         card.innerHTML = `
-//             <img src="${m.imagem}">
-//             <h3>${m.nome}</h3>
-//             <p>${m.especialidade}</p>
-//         `;
+function carregarMedicos() {
+    let url = "http://localhost:3000/medicos";
 
-//         card.onclick = () => {
-//             window.location.href = `medico.html?id=${m.id}`;
-//         };
+    const params = [];
 
-//         container.appendChild(card);
-//     });
-// }
+    if (especialidadeSelecionada) {
+        params.push(`especialidade=${especialidadeSelecionada}`);
+    }
 
-// carregarMedicos();
+    if (inputBusca.value.trim() !== "") {
+        params.push(`nome=${encodeURIComponent(inputBusca.value)}`);
+    }
+
+    if (params.length > 0) {
+        url += "?" + params.join("&");
+    }
+
+    fetch(url)
+        .then(res => res.json())
+        .then(medicos => {
+            container.innerHTML = "";
+
+            if (medicos.length === 0) {
+                container.innerHTML = `<p class="nenhum-medico"> Nenhum médico encontrado.</p>`;
+                return;
+            }
+
+            medicos.forEach(medico => {
+                const card = document.createElement("div");
+                card.classList.add("medico-card");
+
+                card.innerHTML = `
+                    <img src="./imgs/${medico.foto}" alt="${medico.nome}">
+                    <h3>${medico.nome}</h3>
+                    <p>${medico.especialidade}</p>
+                    <p class="descricao">${medico.descricao ?? ""}</p>
+                    <button>Ver detalhes</button>
+                `;
+
+                card.querySelector("button").onclick = () => {
+                    window.location.href = `medico.html?id=${medico.id}`;
+                };
+
+                container.appendChild(card);
+            });
+        })
+        .catch(err => {
+            console.error("Erro:", err);
+            container.innerHTML = "<p>Erro ao carregar médicos</p>";
+        });
+}
+
+carregarMedicos();
