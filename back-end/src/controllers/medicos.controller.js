@@ -19,8 +19,7 @@ exports.listar = (req, res) => {
     const conditions = [];
 
     if (especialidade) {
-        // sql += " WHERE e.slug = ?";
-        conditions.push("e.slug = ?");
+        sql += " WHERE e.slug = ?";
         params.push(especialidade);
         
     }
@@ -32,6 +31,15 @@ exports.listar = (req, res) => {
 
     if (conditons.length > 0) {
         sql += "WHERE" + conditions.join(" AND ");
+    }
+
+    if (nome) {
+        conditions.push("LOWER(m.nome) LIKE ?");
+        params.push(`%${nome.toLowerCase()}%`);
+    }
+
+    if (conditions.length > 0) {
+        sql += " WHERE " + conditions.join(" AND ");
     }
 
     db.all(sql, params, (err, rows) => {
