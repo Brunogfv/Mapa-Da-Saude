@@ -21,19 +21,19 @@ const especialidades = [
         nome: "Odontologia",
         descricao: "Tratamentos dentários e cuidados com a saúde bucal",
         imagem: "./imgs/odonto.png",
-        slug: "dentista"
+        slug: "odontologia"
     },
     {
         nome: "Ginecologia",
         descricao: "Cuidando da saúde feminina com atenção e respeito",
         imagem: "./imgs/ginecologista001.jpg",
-        slug: "ginecologista"
+        slug: "ginecologia"
     },
     {
         nome: "Reumatologia",
         descricao: "Cuidando das articulações, músculos e ossos",
         imagem: "./imgs/reumatologista001.jpg",
-        slug: "reumatologista"
+        slug: "reumatologia"
     }
 ];
 

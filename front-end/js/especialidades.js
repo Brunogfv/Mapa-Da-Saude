@@ -1,21 +1,21 @@
-const especialidades = [
-    {
-        nome: "Pediatria",
-        imagem: "./imgs/pediatria.png"
-    },
-    {
-        nome: "Cardiologia",
-        imagem: "./imgs/cardio001.jpeg"
-    },
-    {
-        nome: "Odontologia",
-        imagem: "./imgs/odonto.png"
-    },
-    {
-        nome: "Clínica Geral",
-        imagem: "./imgs/clinicaGeral.png"
-    }
-];
+// const especialidades = [
+//     {
+//         nome: "Pediatria",
+//         imagem: "./imgs/pediatria.png"
+//     },
+//     {
+//         nome: "Cardiologia",
+//         imagem: "./imgs/cardio001.jpeg"
+//     },
+//     {
+//         nome: "Odontologia",
+//         imagem: "./imgs/odonto.png"
+//     },
+//     {
+//         nome: "Clínica Geral",
+//         imagem: "./imgs/clinicaGeral.png"
+//     }
+// ];
 
 const container = document.getElementById("especialidades-container");
 

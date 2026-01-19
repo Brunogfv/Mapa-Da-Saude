@@ -80,11 +80,6 @@ const especialidadeSelecionada = params.get("especialidade");
     // });
     
 
-if (especialidadeSelecionada) {
-    document.body.classList.add("filtro-especialidade");
-}
-
-
 // Busca
 
 // inputBusca.addEventListener("input", () => {
@@ -103,12 +98,19 @@ if (especialidadeSelecionada) {
 //     );
 // });
 
+if (especialidadeSelecionada) {
+    document.body.classList.add("filtro-especialidade");
+}
+
 const inputBusca = document.getElementById("buscaNome");
 
-inputBusca.addEventListener("input", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    carregarMedicos();
-});
+if (inputBusca) {
+    inputBusca.addEventListener("input", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        carregarMedicos();
+    });    
+}
+
 
 document.getElementById("btnBuscar").addEventListener("click", () => {
     carregarMedicos();
