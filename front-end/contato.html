@@ -28,10 +28,10 @@
         <section class="contato">
             <div class="contato-container">
                 <h2>Contato</h2>
-                <form action="">
-                    <input type="text" id="nome" name="nome" value="Nome" autofocus>
-                    <input type="email" id="email" name="email" value="E-mail">
-                    <textarea name="mensagem" id="mensagem">Mensagem</textarea>
+                <form action="" id="formContato">
+                    <input type="text" name="nome" id="nome" placeholder="Nome" required>
+                    <input type="email" name="email" id="email" placeholder="E-mail" required>
+                    <textarea name="mensagem" id="mensagem" placeholder="Mensagem" required></textarea>
                     <input type="submit" value="Enviar Mensagem">
                 </form>
             </div>
@@ -55,6 +55,26 @@
             </div>
         </section>
     </main>
+
+    <script>
+        document.getElementById("formContato").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const contato = {
+                nome: document.getElementById("nome").value.trim(),
+                email: document.getElementById("email").value.trim(),
+                mensagem: document.getElementById("mensagem").value.trim(),
+                data: new Date().toLocaleString()
+            };
+            let contatos = JSON.parse(localStorage.getItem("contatos")) || [];
+            contatos.push(contato);
+            localStorage.setItem("contatos", JSON.stringify(contatos));
+
+            alert("Mensagem enviada com sucesso!");
+
+            this.reset();
+        });
+    </script>
 </body>
 <footer>
     <p>Mapa da Saúde - Garanhuns © 2025</p>
