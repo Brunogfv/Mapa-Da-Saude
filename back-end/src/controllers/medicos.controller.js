@@ -19,7 +19,6 @@ exports.listar = (req, res) => {
     const conditions = [];
 
     if (especialidade) {
-        // sql += " WHERE e.slug = ?";
         conditions.push("e.slug = ?")
         params.push(especialidade);
     }
