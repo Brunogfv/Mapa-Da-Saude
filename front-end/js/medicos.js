@@ -10,6 +10,7 @@ if (especialidadeSelecionada) {
 
 const inputBusca = document.getElementById("buscaNome");
 
+// Pesquiva via texto
 if (inputBusca) {
     inputBusca.addEventListener("input", () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -17,7 +18,7 @@ if (inputBusca) {
     });    
 }
 
-
+// Pesquisa via botão
 document.getElementById("btnBuscar").addEventListener("click", () => {
     carregarMedicos();
 });
@@ -38,7 +39,7 @@ function carregarMedicos() {
     }
 
     if (inputBusca.value.trim() !== "") {
-        params.push(`nome=${encodeURIComponent(inputBusca.value)}`);
+        params.push(`busca=${encodeURIComponent(inputBusca.value)}`);
     }
 
     if (params.length > 0) {

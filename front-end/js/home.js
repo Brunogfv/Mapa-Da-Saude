@@ -34,6 +34,12 @@ const especialidades = [
         descricao: "Cuidando das articulações, músculos e ossos",
         imagem: "./imgs/reumatologista001.jpg",
         slug: "reumatologia"
+    },
+    {
+        nome: "Oncologia",
+        descricao: "Focado no tratamento, comprometido com a vida.",
+        imagem: "./imgs/oncologista.jpg",
+        slug: "oncologia"
     }
 ];
 

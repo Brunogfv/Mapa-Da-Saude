@@ -1,7 +1,7 @@
 const db = require("../database/db");
 
 exports.listar = (req, res) => {
-    const { especialidade, nome } = req.query;
+    const { especialidade, busca } = req.query;
 
     let sql = `
         SELECT
@@ -23,9 +23,18 @@ exports.listar = (req, res) => {
         params.push(especialidade);
     }
 
-    if (nome) {
-        conditions.push("LOWER(m.nome) LIKE ?");
-        params.push(`%${nome.toLowerCase()}%`);
+    if (busca) {
+        conditions.push(`
+            (
+                LOWER(m.nome) LIKE ?
+                OR LOWER(e.nome) LIKE ?
+                OR LOWER(e.slug) LIKE ?
+            )
+        `);
+        const termo = `%${busca.toLowerCase()}%`;
+        params.push(termo, termo, termo);
+        // conditions.push("LOWER(m.nome) LIKE ?");
+        // params.push(`%${nome.toLowerCase()}%`);
     }
 
     if (conditions.length > 0) {
