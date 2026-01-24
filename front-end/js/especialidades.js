@@ -1,5 +1,4 @@
-const container = document.getElementById("especialidades-container");
-
+// Seleciona cards já existentes no HTML
 document.querySelectorAll(".specialty-card").forEach(card => {
     card.addEventListener("click", () => {
         const especialidade = card.dataset.especialidade;

@@ -1,4 +1,7 @@
+// Leitura dos parâmetros da URL
 const params = new URLSearchParams(window.location.search);
+
+// Extrai o valor id do parâmetro
 const id = params.get("id");
 
 if (!id) {

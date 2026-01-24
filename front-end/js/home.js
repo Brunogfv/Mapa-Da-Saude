@@ -1,3 +1,5 @@
+// Array de objetos do cards
+
 const especialidades = [
     {
         nome: "Pediatria",
@@ -43,9 +45,10 @@ const especialidades = [
     }
 ];
 
-
+// Seleção do container
 const container = document.querySelector(".card-container");
 
+// Percorre o array
 especialidades.forEach(especialidade => {
     const card = document.createElement("div");
     card.classList.add("card");

@@ -1,6 +1,10 @@
+// Seleção do container onde vão inserir os cards
 const container = document.getElementById("medicosContainer");
 
+// Leitura dos parâmetros da URL
 const params = new URLSearchParams(window.location.search);
+
+// Extrai o valor do parâmetro especialidade
 const especialidadeSelecionada = params.get("especialidade");
 
 
@@ -29,6 +33,7 @@ if (temFiltro) {
     document.body.classList.add("modo-filtro");
 }
 
+// Função Principal
 function carregarMedicos() {
     let url = "http://localhost:3000/medicos";
 
