@@ -1,5 +1,7 @@
+// Importar o objeto de conexão
 const db = require("../database/db");
 
+// Função listar
 exports.listar = (req, res) => {
     const { especialidade, busca } = req.query;
 
@@ -48,6 +50,7 @@ exports.listar = (req, res) => {
 };
 
 
+// Função buscar por ID
 exports.buscarPorId = (req, res) => {
     const { id } = req.params;
 
