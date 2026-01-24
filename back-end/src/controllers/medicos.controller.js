@@ -33,8 +33,6 @@ exports.listar = (req, res) => {
         `);
         const termo = `%${busca.toLowerCase()}%`;
         params.push(termo, termo, termo);
-        // conditions.push("LOWER(m.nome) LIKE ?");
-        // params.push(`%${nome.toLowerCase()}%`);
     }
 
     if (conditions.length > 0) {
@@ -49,21 +47,6 @@ exports.listar = (req, res) => {
     });
 };
 
-exports.criar = (req, res) => {
-    const { nome, especialidade_id, foto, descricao } = req.body;
-
-    const sql = `
-        INSERT INTO medicos (nome, especialidade_id, foto, descricao)
-        VALUES (?, ?, ?, ?)
-    `;
-
-    db.run(sql, [nome, especialidade_id, foto, descricao], function (err) {
-        if (err) {
-            return res.status(500).json({ erro: err.message });
-        }
-        res.status(201).json({ id: this.lastID });
-    });
-};
 
 exports.buscarPorId = (req, res) => {
     const { id } = req.params;
