@@ -129,7 +129,7 @@ exports.atualizar = (req, res) => {
 
 // Exemplo
 // {
-//   "nome": "Dr. João Teste",
+//   "nome": "Dr. João Teste2",
 //   "especialidade_id": 2,
 //   "foto": "joaoTeste.png",
 //   "descricao": "Especialista em cardiologia clínica"
