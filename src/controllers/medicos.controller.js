@@ -73,3 +73,82 @@ exports.buscarPorId = (req, res) => {
         res.json(row);
     });
 };
+
+// Criar médico
+exports.criar = (req, res) => {
+    const { nome, especialidade_id, foto, descricao } = req.body;
+
+    const sql = `
+        INSERT INTO medicos (nome, especialidade_id, foto, descricao)
+        VALUES (?, ?, ?, ?)
+    `;
+
+    db.run(sql, [nome, especialidade_id, foto, descricao], function (err) {
+        if (err) {
+            return res.status(500).json({ erro: err.message });
+        }
+        res.status(201).json({ id: this.lastID });
+    });
+};
+
+// Exemplo
+// {
+//   "nome": "Dr. João Teste",
+//   "especialidade_id": 2,
+//   "foto": "joaoTeste.png",
+//   "descricao": "Especialista em cardiologia clínica"
+// }
+
+// Atualizar médico
+exports.atualizar = (req, res) => {
+    const { id } = req.params;
+    const { nome, especialidade_id, foto, descricao } = req.body;
+
+    const sql = `
+        UPDATE medicos
+        SET nome = ?, especialidade_id = ?, foto = ?, descricao = ?
+        WHERE id = ?
+    `;
+
+    db.run(
+        sql,
+        [nome, especialidade_id, foto, descricao, id],
+        function (err) {
+            if (err) {
+                return res.status(500).json({ erro: err.message });
+            }
+
+            if (this.changes === 0) {
+                return res.status(404).json({ mensagem: "Médico não encontrado" });
+            }
+
+            res.json({ mensagem: "Médico atualizado com sucesso" });
+        }
+    );
+};
+
+// Exemplo
+// {
+//   "nome": "Dr. João Teste",
+//   "especialidade_id": 2,
+//   "foto": "joaoTeste.png",
+//   "descricao": "Especialista em cardiologia clínica"
+// }
+
+//Remover médico
+exports.remover = (req, res) => {
+    const { id } = req.params;
+
+    const sql = `DELETE FROM medicos WHERE id = ?`;
+
+    db.run(sql, [id], function (err) {
+        if (err) {
+            return res.status(500).json({ erro: err.message });
+        }
+        if (this.changes === 0) {
+            return res.status(404).json({ mensagem: "Médico não encontrado." });
+        }
+
+        res.json({ mensagem: "Médico removido com sucesso" });
+    });
+};
