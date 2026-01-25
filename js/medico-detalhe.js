@@ -8,7 +8,7 @@ if (!id) {
     console.error("ID do médico não informado");
 }
 
-fetch(`http://localhost:3000/medicos/${id}`)
+fetch(`https://mapa-da-saude.onrender.com/medicos/${id}`)
     .then(response => response.json())
     .then(medico => {
         if (!medico) {
