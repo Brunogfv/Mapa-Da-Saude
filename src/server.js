@@ -2,7 +2,7 @@
 const app = require("./app");
 
 // Porta escolhida
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Inicia o servidor
 app.listen(PORT, () => {
