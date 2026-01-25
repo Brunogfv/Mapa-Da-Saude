@@ -19,7 +19,7 @@ if (inputBusca) {
     inputBusca.addEventListener("input", () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
         carregarMedicos();
-    });    
+    });
 }
 
 // Pesquisa via botão
@@ -35,7 +35,7 @@ if (temFiltro) {
 
 // Função Principal
 function carregarMedicos() {
-    let url = "http://localhost:3000/medicos";
+    let url = "https://mapa-da-saude.onrender.com/medicos";
 
     const params = [];
 
