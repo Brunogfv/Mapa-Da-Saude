@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap" rel="stylesheet">
+
+    <title>Mapa da Saúde - Especialidades Médicas</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/especialidade.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <img src="./imgs/mapa_saude.png" alt="Logo do Mapa da Saúde">
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="especialidade.html" class="active">Especialidade</a>
+                <a href="medicos.html">Médicos</a>
+                <a href="sobre.html">Sobre</a>
+                <a href="contato.html">Contato</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="hero">
+            <h1>Especialidades Médicas</h1>
+            <p>Conheça as especialidades médicas presentes em Garanhuns</p>
+        </section>
+
+        <section class="specialties-grid">
+            <!-- Clínica Geral -->
+            <div class="specialty-card" data-especialidade="clinica-geral">
+                <img src="./imgs/clinicaGeral.png" alt="Clínica Geral">
+                <div class="card-content">
+                    <h3>Clínica Geral</h3>
+                    <p>Atendimento para consultas de rotina e prevenção de doenças</p>
+                    <a href="#" class="view-btn">Ver médicos</a>
+                </div>
+            </div>
+
+            <!-- Pediatria -->
+            <div class="specialty-card" data-especialidade="pediatria">
+                <img src="./imgs/pediatria.png" alt="Pediatria">
+                <div class="card-content">
+                    <h3>Pediatria</h3>
+                    <p>Cuidados médicos especializados para crianças e adolescentes</p>
+                    <a href="#" class="view-btn">Ver médicos</a>
+                </div>
+            </div>
+
+            <!-- Cardiologia -->
+            <div class="specialty-card" data-especialidade="cardiologia">
+                <img src="./imgs/cardio001.jpeg" alt="Cardiologia">
+                <div class="card-content">
+                    <h3>Cardiologia</h3>
+                    <p>Diagnóstico e tratamento de doenças do coração</p>
+                    <a href="#" class="view-btn">Ver médicos</a>
+                </div>
+            </div>
+
+            <!-- Odontologia -->
+            <div class="specialty-card" data-especialidade="odontologia">
+                <img src="./imgs/odonto.png" alt="Odontologia">
+                <div class="card-content">
+                    <h3>Odontologia</h3>
+                    <p>Tratamentos dentários e cuidados com a saúde bucal</p>
+                    <a href="#" class="view-btn">Ver médicos</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>Mapa da Saúde - Garanhuns © 2025</p>
+    </footer>
+
+    <script src="./js/especialidades.js"></script>
+</body>
+</html>
