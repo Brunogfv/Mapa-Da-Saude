@@ -1,4 +1,4 @@
-const API = "https://mapa-da-saude-production.up.railway.app";
+const API = "https://mapa-da-saude.onrender.com";
 
 function getToken() {
   return localStorage.getItem("admin_token");
