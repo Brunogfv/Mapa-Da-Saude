@@ -57,13 +57,15 @@ header nav {
     justify-content: flex-end;
     align-items: center;
     width: 100%;
-    gap: 40px;
+    gap: 30px;
+    flex-wrap: wrap;
 }
 
 header nav a {
     text-decoration: none;
     color: #ffffff;
-    font-size: 20px;
+    font-size: 18px;
+    white-space: nowrap;
     transition: opacity 0.2s ease;
 }
 
@@ -212,13 +214,115 @@ footer {
     to { opacity: 1; transform: translateY(0); }
 }
 
+@media (max-width: 900px) {
+    header nav {
+        gap: 16px;
+    }
+
+    header nav a {
+        font-size: 14px;
+    }
+}
+
 @media (max-width: 768px) {
     header {
         background-color: #0891B2;
         color: #ffffff;
         width: 100%;
         padding: 10px 0px;
+        display: flex;
+        justify-content: center;
     }
+
+    header .container {
+        width: 90%;
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    header nav {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        width: 100%;
+        gap: 8px;
+    }
+
+    header nav a {
+        text-decoration: none;
+        color: #ffffff;
+        font-size: 12px;
+        padding: 4px 6px;
+    }
+
+    .logo {
+        font-size: 16px;
+        gap: 6px;
+    }
+
+    .logo svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .main-container {
+        flex-direction: column;
+    }
+
+    #btnBuscar {
+        width: 100%;
+    }
+
+    footer {
+        background-color: #0891B2;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        font-size: 14px;
+        margin-top: 50px;
+        width: 100%;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content .hero-subtitle {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header .container {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    header nav {
+        justify-content: center;
+        gap: 6px;
+    }
+
+    header nav a {
+        font-size: 11px;
+        padding: 3px 4px;
+    }
+
+    footer {
+        background-color: #0891B2;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        font-size: 14px;
+        margin-top: 50px;
+        width: 100%;
+    }
+}
 
     header .container {
         width: 90%;

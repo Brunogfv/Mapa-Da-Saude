@@ -1,16 +1,20 @@
 .home {
     background-image: url(../imgs/banner001.png);
     background-size: cover;
-    height: 600px;
+    background-position: center;
+    min-height: 600px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    padding: 40px;
 }
 
 .home div {
     display: flex;
     flex-direction: column;
-    margin-right: 250px;
+    max-width: 500px;
+    width: 100%;
+    margin-right: 60px;
 }
 
 .home h2 {
@@ -26,6 +30,7 @@
 .home-logo svg {
     width: 48px;
     height: 48px;
+    flex-shrink: 0;
 }
 
 .home-logo span {
@@ -38,11 +43,12 @@
 .home p {
     font-size: 30px;
     font-weight: 500;
-    width: 600px;
+    max-width: 600px;
+    width: 100%;
     height: auto;
 }
 
-.guia {    
+.guia {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -54,13 +60,16 @@
     justify-content: space-between;
     align-items: center;
     width: 80%;
+    gap: 30px;
+    flex-wrap: wrap;
 }
 
 .guia-texto {
     display: flex;
     gap: 10px;
     flex-direction: column;
-    width: 400px;
+    flex: 1;
+    min-width: 280px;
 }
 
 .guia-texto h3 {
@@ -77,6 +86,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 }
 
 .guia-container .icone-hospital svg {
@@ -84,18 +94,17 @@
     height: 200px;
 }
 
-
-.cards {    
+.cards {
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-.cards-container {    
+.cards-container {
     width: 80%;
     display: flex;
     flex-direction: column;
-    align-items: stretch; 
+    align-items: stretch;
 }
 
 .cards-container h2 {
@@ -146,24 +155,41 @@
     object-fit: cover;
 }
 
-@media (max-width: 768px) {
-    .home {
-    background-image: url(../imgs/banner001.png);
-    background-size: cover;
-    height: 400px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+@media (max-width: 1024px) {
+    .home div {
+        margin-right: 40px;
+        max-width: 400px;
     }
 
-    .home div {
-        display: flex;
-        flex-direction: column;
-        margin-right: 100px;
+    .home p {
+        font-size: 24px;
+    }
+
+    .home-logo span {
+        font-size: 32px;
     }
 
     .home h2 {
-        font-size: 18px;
+        font-size: 38px;
+    }
+}
+
+@media (max-width: 768px) {
+    .home {
+        min-height: 400px;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .home div {
+        margin-right: 0;
+        max-width: 100%;
+        align-items: center;
+        text-align: center;
+    }
+
+    .home h2 {
+        font-size: 22px;
     }
 
     .home-logo {
@@ -171,19 +197,26 @@
     }
 
     .home-logo svg {
-        width: 24px;
-        height: 24px;
+        width: 28px;
+        height: 28px;
     }
 
     .home-logo span {
-        font-size: 20px;
+        font-size: 24px;
     }
 
     .home p {
-        font-size: 10px;
-        font-weight: 500;
-        width: 300px;
-        height: auto;
+        font-size: 16px;
+        max-width: 100%;
+    }
+
+    .guia-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .guia-texto {
+        align-items: center;
     }
 }
-
