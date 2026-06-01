@@ -1,12 +1,8 @@
-// Seleção do container onde vão inserir os cards
 const container = document.getElementById("medicosContainer");
+const paginacao = document.getElementById("medicosPaginacao");
 
-// Leitura dos parâmetros da URL
 const params = new URLSearchParams(window.location.search);
-
-// Extrai o valor do parâmetro especialidade
 const especialidadeSelecionada = params.get("especialidade");
-
 
 if (especialidadeSelecionada) {
     document.body.classList.add("filtro-especialidade");
@@ -14,24 +10,26 @@ if (especialidadeSelecionada) {
 
 const inputBusca = document.getElementById("buscaNome");
 
-// Pesquiva via texto
 if (inputBusca) {
     inputBusca.addEventListener("input", () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
+        paginaAtual = 1;
         carregarMedicos();
-    });    
+    });
 }
 
-// Pesquisa via botão
 document.getElementById("btnBuscar").addEventListener("click", () => {
+    paginaAtual = 1;
     carregarMedicos();
 });
 
 const temFiltro = especialidadeSelecionada || params.get("busca");
-
 if (temFiltro) {
     document.body.classList.add("modo-filtro");
 }
+
+let paginaAtual = 1;
+let totalPaginas = 1;
 
 function mostrarSkeleton() {
     container.innerHTML = "";
@@ -57,45 +55,66 @@ function mostrarErro(mensagem) {
     document.querySelector(".btn-tentar-novamente").addEventListener("click", carregarMedicos);
 }
 
-// Função Principal
+function renderizarPaginacao() {
+    if (!paginacao || totalPaginas <= 1) {
+        if (paginacao) paginacao.innerHTML = "";
+        return;
+    }
+
+    let html = "";
+    for (let i = 1; i <= totalPaginas; i++) {
+        html += `<button class="btn btn-pagina ${i === paginaAtual ? 'ativo' : ''}" data-pagina="${i}">${i}</button>`;
+    }
+    paginacao.innerHTML = html;
+
+    paginacao.querySelectorAll(".btn-pagina").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            paginaAtual = Number(btn.dataset.pagina);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            carregarMedicos();
+        });
+    });
+}
+
 function carregarMedicos() {
     mostrarSkeleton();
+    if (paginacao) paginacao.innerHTML = "";
 
-    let url = `${API_BASE_URL}/medicos`;
-
-    const params = [];
+    const queryParams = new URLSearchParams();
+    queryParams.set("pagina", paginaAtual);
+    queryParams.set("limite", 12);
 
     if (especialidadeSelecionada) {
-        params.push(`especialidade=${especialidadeSelecionada}`);
+        queryParams.set("especialidade", especialidadeSelecionada);
     }
 
-    if (inputBusca.value.trim() !== "") {
-        params.push(`busca=${encodeURIComponent(inputBusca.value)}`);
+    if (inputBusca && inputBusca.value.trim() !== "") {
+        queryParams.set("busca", inputBusca.value.trim());
     }
 
-    if (params.length > 0) {
-        url += "?" + params.join("&");
-    }
+    const url = `${API_BASE_URL}/medicos?${queryParams.toString()}`;
 
     fetch(url)
         .then(res => {
             if (!res.ok) throw new Error(`Erro ${res.status}`);
             return res.json();
         })
-        .then(medicos => {
+        .then(data => {
             container.innerHTML = "";
 
-            if (medicos.length === 0) {
-                container.innerHTML = `<p class="nenhum-medico"> Nenhum médico encontrado.</p>`;
+            if (!data.dados || data.dados.length === 0) {
+                container.innerHTML = `<p class="nenhum-medico">Nenhum médico encontrado.</p>`;
                 return;
             }
 
-            medicos.forEach(medico => {
+            totalPaginas = data.totalPaginas;
+
+            data.dados.forEach(medico => {
                 const card = document.createElement("div");
                 card.classList.add("medico-card");
 
                 card.innerHTML = `
-                    <img src="./imgs/${medico.foto}" alt="${medico.nome}">
+                    <img src="./imgs/${medico.foto}" alt="${medico.nome}" onerror="this.src='./imgs/placeholder.svg'">
                     <h3>${medico.nome}</h3>
                     <p>${medico.especialidade}</p>
                     <p class="descricao">${medico.descricao ?? ""}</p>
@@ -108,6 +127,8 @@ function carregarMedicos() {
 
                 container.appendChild(card);
             });
+
+            renderizarPaginacao();
         })
         .catch(err => {
             console.error("Erro:", err);

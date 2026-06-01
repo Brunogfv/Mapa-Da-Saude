@@ -68,25 +68,37 @@
     </main>
 
     <script>
-        document.getElementById("formContato").addEventListener("submit", function (event) {
+        const API_BASE_URL = "https://mapa-da-saude-production.up.railway.app";
+        const formContato = document.getElementById("formContato");
+        const formMensagem = document.getElementById("formMensagem");
+
+        formContato.addEventListener("submit", async function (event) {
             event.preventDefault();
 
-            const contato = {
+            const dados = {
                 nome: document.getElementById("nome").value.trim(),
                 email: document.getElementById("email").value.trim(),
                 mensagem: document.getElementById("mensagem").value.trim(),
-                data: new Date().toLocaleString()
             };
-            let contatos = JSON.parse(localStorage.getItem("contatos")) || [];
-            contatos.push(contato);
-            localStorage.setItem("contatos", JSON.stringify(contatos));
 
-            const msg = document.getElementById("formMensagem");
-            msg.textContent = "Mensagem enviada com sucesso!";
-            msg.style.display = "block";
+            try {
+                const res = await fetch(`${API_BASE_URL}/contatos`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(dados),
+                });
 
-            this.reset();
-            setTimeout(() => { msg.style.display = "none"; }, 4000);
+                if (!res.ok) throw new Error("Erro ao enviar");
+
+                formMensagem.textContent = "Mensagem enviada com sucesso!";
+                formMensagem.style.display = "block";
+                this.reset();
+            } catch {
+                formMensagem.textContent = "Erro ao enviar mensagem. Tente novamente.";
+                formMensagem.style.display = "block";
+            }
+
+            setTimeout(() => { formMensagem.style.display = "none"; }, 4000);
         });
     </script>
 

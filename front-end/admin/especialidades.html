@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Especialidades - Admin | Mapa da Saúde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <header class="admin-header">
+    <a href="dashboard.html" class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0891B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+      </svg>
+      Admin
+    </a>
+    <div class="user-info">
+      <span id="userEmail"></span>
+      <button class="btn btn-sm" onclick="logout()">Sair</button>
+    </div>
+  </header>
+
+  <div class="admin-container">
+    <div class="nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="medicos.html">Médicos</a>
+      <a href="especialidades.html" class="ativo">Especialidades</a>
+      <a href="contatos.html">Contatos</a>
+    </div>
+
+    <div class="toolbar">
+      <div>
+        <h1>Especialidades</h1>
+        <p class="subtitle" style="margin-bottom:0">Gerencie as especialidades médicas.</p>
+      </div>
+      <button class="btn btn-cta" onclick="abrirModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Nova Especialidade
+      </button>
+    </div>
+
+    <div class="erro" id="erro"></div>
+    <div class="sucesso" id="sucesso"></div>
+
+    <div id="lista"></div>
+  </div>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <h2 id="modalTitulo">Nova Especialidade</h2>
+      <div class="erro" id="modalErro"></div>
+      <form id="formModal">
+        <div class="form-group">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" required>
+        </div>
+        <div class="form-group">
+          <label for="slug">Slug (URL)</label>
+          <input type="text" id="slug" placeholder="ex: clinica-geral">
+        </div>
+        <div class="form-group">
+          <label for="descricao">Descrição</label>
+          <textarea id="descricao" rows="3"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn" onclick="fecharModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/admin.js"></script>
+  <script>
+    if (!isAutenticado()) window.location.href = "login.html";
+    document.getElementById("userEmail").textContent = localStorage.getItem("admin_email");
+
+    async function carregar() {
+      const res = await apiFetch("/especialidades");
+      if (!res) return;
+      const data = await res.json();
+      const lista = document.getElementById("lista");
+
+      if (data.length === 0) {
+        lista.innerHTML = '<div class="vazia">Nenhuma especialidade cadastrada.</div>';
+        return;
+      }
+
+      lista.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Slug</th>
+              <th>Descrição</th>
+              <th style="width:120px">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${data.map((e) => `
+              <tr>
+                <td data-label="Nome"><strong>${e.nome}</strong></td>
+                <td data-label="Slug" style="color:var(--muted)">${e.slug || "-"}</td>
+                <td data-label="Descrição" style="color:var(--muted)">${e.descricao || "-"}</td>
+                <td data-label="Ações" class="acoes">
+                  <button class="btn btn-sm" onclick="abrirModal(${e.id})">Editar</button>
+                  <button class="btn btn-sm btn-danger" onclick="excluir(${e.id})">Excluir</button>
+                </td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function abrirModal(id) {
+      limparMensagens();
+      document.getElementById("modalErro").classList.remove("visible");
+
+      if (id) {
+        document.getElementById("modalTitulo").textContent = "Editar Especialidade";
+        fetch(`${API}/especialidades`, { headers: { Authorization: `Bearer ${getToken()}` } })
+          .then((r) => r.json())
+          .then((data) => {
+            const esp = data.find((e) => e.id === id);
+            if (esp) {
+              document.getElementById("nome").value = esp.nome;
+              document.getElementById("slug").value = esp.slug;
+              document.getElementById("descricao").value = esp.descricao || "";
+              document.getElementById("formModal").dataset.id = id;
+            }
+          });
+      } else {
+        document.getElementById("modalTitulo").textContent = "Nova Especialidade";
+        document.getElementById("nome").value = "";
+        document.getElementById("slug").value = "";
+        document.getElementById("descricao").value = "";
+        delete document.getElementById("formModal").dataset.id;
+      }
+
+      document.getElementById("modal").classList.add("visible");
+    }
+
+    function fecharModal() {
+      document.getElementById("modal").classList.remove("visible");
+      document.getElementById("formModal").reset();
+      delete document.getElementById("formModal").dataset.id;
+    }
+
+    document.getElementById("formModal").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const modalErro = document.getElementById("modalErro");
+      modalErro.classList.remove("visible");
+
+      const id = document.getElementById("formModal").dataset.id;
+      const body = {
+        nome: document.getElementById("nome").value,
+        slug: document.getElementById("slug").value || undefined,
+        descricao: document.getElementById("descricao").value || undefined,
+      };
+
+      try {
+        const method = id ? "PUT" : "POST";
+        const url = id ? `/especialidades/${id}` : "/especialidades";
+        const res = await apiFetch(url, { method, body: JSON.stringify(body) });
+
+        if (!res.ok) {
+          const data = await res.json();
+          modalErro.textContent = data.erro || "Erro ao salvar";
+          modalErro.classList.add("visible");
+          return;
+        }
+
+        fecharModal();
+        exibirSucesso(id ? "Especialidade atualizada!" : "Especialidade criada!");
+        carregar();
+      } catch {
+        modalErro.textContent = "Erro de conexão";
+        modalErro.classList.add("visible");
+      }
+    });
+
+    async function excluir(id) {
+      if (!confirm("Tem certeza que deseja excluir esta especialidade?")) return;
+      const res = await apiFetch(`/especialidades/${id}`, { method: "DELETE" });
+      if (!res) return;
+      exibirSucesso("Especialidade removida!");
+      carregar();
+    }
+
+    carregar();
+  </script>
+</body>
+</html>

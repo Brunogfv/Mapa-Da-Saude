@@ -16,8 +16,32 @@ const db = new sqlite3.Database(dbPath, (err) => {
     }
 });
 
+// Seed admin padrão
+function seedAdmin() {
+  const bcrypt = require("bcryptjs");
+  const email = "admin@mapadasaude.com";
+  const senha = "admin123";
+  db.get("SELECT id FROM usuarios WHERE email = ?", [email], (err, row) => {
+    if (!row) {
+      const hash = bcrypt.hashSync(senha, 10);
+      db.run(
+        "INSERT INTO usuarios (email, senha) VALUES (?, ?)",
+        [email, hash]
+      );
+    }
+  });
+}
+
 // Criação de tabelas
 db.serialize(() => {
+    db.run(`
+        CREATE TABLE IF NOT EXISTS usuarios (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            email TEXT UNIQUE NOT NULL,
+            senha TEXT NOT NULL
+        )
+    `);
+
     db.run(`
         CREATE TABLE IF NOT EXISTS especialidades (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,9 +57,26 @@ db.serialize(() => {
             nome TEXT NOT NULL,
             especialidade_id INTEGER,
             foto TEXT,
+            descricao TEXT,
             FOREIGN KEY (especialidade_id) REFERENCES especialidades(id)
         )
     `);
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS contatos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT NOT NULL,
+            email TEXT NOT NULL,
+            mensagem TEXT NOT NULL,
+            criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
+
+    seedAdmin();
+
+    // Migração: adicionar coluna descricao se não existir (tabela já criada)
+    db.run("ALTER TABLE medicos ADD COLUMN descricao TEXT", () => {});
+    db.run("ALTER TABLE medicos ADD COLUMN criado_em DATETIME DEFAULT CURRENT_TIMESTAMP", () => {});
 });
 
 // Exporta o banco de dados

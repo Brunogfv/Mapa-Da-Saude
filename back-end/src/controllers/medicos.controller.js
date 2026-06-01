@@ -1,9 +1,10 @@
 // Importar o objeto de conexão
 const db = require("../database/db");
 
-// Função listar
+// Função listar (com paginação)
 exports.listar = (req, res) => {
-    const { especialidade, busca } = req.query;
+    const { especialidade, busca, pagina = 1, limite = 12 } = req.query;
+    const offset = (Math.max(1, Number(pagina)) - 1) * Number(limite);
 
     let sql = `
         SELECT
@@ -13,6 +14,12 @@ exports.listar = (req, res) => {
             m.descricao,
             e.nome AS especialidade,
             e.slug
+        FROM medicos m
+        JOIN especialidades e ON e.id = m.especialidade_id
+    `;
+
+    let countSql = `
+        SELECT COUNT(*) AS total
         FROM medicos m
         JOIN especialidades e ON e.id = m.especialidade_id
     `;
@@ -38,14 +45,29 @@ exports.listar = (req, res) => {
     }
 
     if (conditions.length > 0) {
-        sql += " WHERE " + conditions.join(" AND ");
+        const where = " WHERE " + conditions.join(" AND ");
+        sql += where;
+        countSql += where;
     }
 
-    db.all(sql, params, (err, rows) => {
-        if (err) {
-            return res.status(500).json({ erro: err.message });
-        }
-        res.json(rows);
+    sql += " ORDER BY m.nome LIMIT ? OFFSET ?";
+    const countParams = [...params];
+
+    db.get(countSql, countParams, (err, countRow) => {
+        if (err) return res.status(500).json({ erro: err.message });
+
+        const total = countRow ? countRow.total : 0;
+        params.push(Number(limite), offset);
+
+        db.all(sql, params, (err, rows) => {
+            if (err) return res.status(500).json({ erro: err.message });
+            res.json({
+                dados: rows,
+                total,
+                pagina: Number(pagina),
+                totalPaginas: Math.ceil(total / Number(limite)),
+            });
+        });
     });
 };
 
@@ -76,7 +98,8 @@ exports.buscarPorId = (req, res) => {
 
 // Criar médico
 exports.criar = (req, res) => {
-    const { nome, especialidade_id, foto, descricao } = req.body;
+    const { nome, especialidade_id, descricao } = req.body;
+    const foto = req.file ? req.file.filename : null;
 
     const sql = `
         INSERT INTO medicos (nome, especialidade_id, foto, descricao)
@@ -87,7 +110,7 @@ exports.criar = (req, res) => {
         if (err) {
             return res.status(500).json({ erro: err.message });
         }
-        res.status(201).json({ id: this.lastID });
+        res.status(201).json({ id: this.lastID, foto });
     });
 };
 
@@ -102,29 +125,29 @@ exports.criar = (req, res) => {
 // Atualizar médico
 exports.atualizar = (req, res) => {
     const { id } = req.params;
-    const { nome, especialidade_id, foto, descricao } = req.body;
+    const { nome, especialidade_id, descricao } = req.body;
+    const foto = req.file ? req.file.filename : undefined;
 
-    const sql = `
-        UPDATE medicos
-        SET nome = ?, especialidade_id = ?, foto = ?, descricao = ?
-        WHERE id = ?
-    `;
+    const campos = [];
+    const params = [];
 
-    db.run(
-        sql,
-        [nome, especialidade_id, foto, descricao, id],
-        function (err) {
-            if (err) {
-                return res.status(500).json({ erro: err.message });
-            }
+    if (nome !== undefined) { campos.push("nome = ?"); params.push(nome); }
+    if (especialidade_id !== undefined) { campos.push("especialidade_id = ?"); params.push(especialidade_id); }
+    if (descricao !== undefined) { campos.push("descricao = ?"); params.push(descricao); }
+    if (foto !== undefined) { campos.push("foto = ?"); params.push(foto); }
 
-            if (this.changes === 0) {
-                return res.status(404).json({ mensagem: "Médico não encontrado" });
-            }
+    if (campos.length === 0) {
+        return res.status(400).json({ erro: "Nenhum campo para atualizar" });
+    }
 
-            res.json({ mensagem: "Médico atualizado com sucesso" });
-        }
-    );
+    params.push(id);
+    const sql = `UPDATE medicos SET ${campos.join(", ")} WHERE id = ?`;
+
+    db.run(sql, params, function (err) {
+        if (err) return res.status(500).json({ erro: err.message });
+        if (this.changes === 0) return res.status(404).json({ mensagem: "Médico não encontrado" });
+        res.json({ mensagem: "Médico atualizado com sucesso" });
+    });
 };
 
 // Exemplo

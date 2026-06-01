@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Médicos - Admin | Mapa da Saúde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <header class="admin-header">
+    <a href="dashboard.html" class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0891B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+      </svg>
+      Admin
+    </a>
+    <div class="user-info">
+      <span id="userEmail"></span>
+      <button class="btn btn-sm" onclick="logout()">Sair</button>
+    </div>
+  </header>
+
+  <div class="admin-container">
+    <div class="nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="medicos.html" class="ativo">Médicos</a>
+      <a href="especialidades.html">Especialidades</a>
+      <a href="contatos.html">Contatos</a>
+    </div>
+
+    <div class="toolbar">
+      <div>
+        <h1>Médicos</h1>
+        <p class="subtitle" style="margin-bottom:0">Gerencie os médicos cadastrados.</p>
+      </div>
+      <button class="btn btn-cta" onclick="abrirModalNovo()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Novo Médico
+      </button>
+    </div>
+
+    <div class="erro" id="erro"></div>
+    <div class="sucesso" id="sucesso"></div>
+
+    <div id="lista"></div>
+  </div>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <h2 id="modalTitulo">Novo Médico</h2>
+      <div class="erro" id="modalErro"></div>
+      <form id="formModal" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" required>
+        </div>
+        <div class="form-group">
+          <label for="especialidade_id">Especialidade</label>
+          <select id="especialidade_id" required></select>
+        </div>
+        <div class="form-group">
+          <label for="descricao">Descrição</label>
+          <textarea id="descricao" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="foto">Foto</label>
+          <input type="file" id="foto" accept="image/*">
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn" onclick="fecharModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="btnSalvar">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/admin.js"></script>
+  <script>
+    if (!isAutenticado()) window.location.href = "login.html";
+    document.getElementById("userEmail").textContent = localStorage.getItem("admin_email");
+
+    let especialidadesCache = [];
+
+    async function carregarEspecialidades() {
+      const res = await apiFetch("/especialidades");
+      if (!res) return [];
+      return res.json();
+    }
+
+    async function preencherSelect() {
+      especialidadesCache = await carregarEspecialidades();
+      const sel = document.getElementById("especialidade_id");
+      sel.innerHTML = '<option value="">Selecione...</option>';
+      especialidadesCache.forEach((e) => {
+        sel.innerHTML += `<option value="${e.id}">${e.nome}</option>`;
+      });
+    }
+
+    async function carregar() {
+      const res = await apiFetch("/medicos");
+      if (!res) return;
+      const data = await res.json();
+      const lista = document.getElementById("lista");
+
+      if (!data.dados || data.dados.length === 0) {
+        lista.innerHTML = '<div class="vazia">Nenhum médico cadastrado.</div>';
+        return;
+      }
+
+      lista.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Foto</th>
+              <th>Nome</th>
+              <th>Especialidade</th>
+              <th style="width:120px">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${data.dados.map((m) => `
+              <tr>
+                <td data-label="Foto">
+                  <img src="${m.foto ? URL_FOTOS + m.foto : '../img/medico-placeholder.svg'}" alt="${m.nome}" class="foto-thumb" onerror="this.src='../img/medico-placeholder.svg'">
+                </td>
+                <td data-label="Nome"><strong>${m.nome}</strong></td>
+                <td data-label="Especialidade">${m.especialidade}</td>
+                <td data-label="Ações" class="acoes">
+                  <button class="btn btn-sm" onclick="abrirModalEditar(${m.id})">Editar</button>
+                  <button class="btn btn-sm btn-danger" onclick="excluir(${m.id})">Excluir</button>
+                </td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+        <p style="text-align:center;margin-top:16px;color:var(--muted);font-size:13px">Total: ${data.total} médicos</p>
+      `;
+    }
+
+    const URL_FOTOS = "https://mapa-da-saude-production.up.railway.app/uploads/";
+
+    function abrirModalNovo() {
+      limparMensagens();
+      preencherSelect();
+      abrirModal("Novo Médico");
+      document.getElementById("nome").value = "";
+      document.getElementById("descricao").value = "";
+      document.getElementById("foto").value = "";
+      document.getElementById("especialidade_id").value = "";
+      delete document.getElementById("formModal").dataset.id;
+    }
+
+    async function abrirModalEditar(id) {
+      limparMensagens();
+      await preencherSelect();
+
+      const res = await apiFetch(`/medicos/${id}`);
+      if (!res) return;
+      const m = await res.json();
+
+      abrirModal("Editar Médico");
+      document.getElementById("nome").value = m.nome || "";
+      document.getElementById("descricao").value = m.descricao || "";
+      document.getElementById("foto").value = "";
+
+      if (m.especialidade) {
+        const esp = especialidadesCache.find((e) => e.nome === m.especialidade);
+        document.getElementById("especialidade_id").value = esp ? esp.id : "";
+      }
+
+      document.getElementById("formModal").dataset.id = id;
+    }
+
+    document.getElementById("formModal").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const modalErro = document.getElementById("modalErro");
+      modalErro.classList.remove("visible");
+
+      const id = document.getElementById("formModal").dataset.id;
+      const formData = new FormData();
+      formData.append("nome", document.getElementById("nome").value);
+      formData.append("especialidade_id", document.getElementById("especialidade_id").value);
+      formData.append("descricao", document.getElementById("descricao").value);
+      const fotoInput = document.getElementById("foto");
+      if (fotoInput.files[0]) formData.append("foto", fotoInput.files[0]);
+
+      try {
+        const method = id ? "PUT" : "POST";
+        const url = id ? `/medicos/${id}` : "/medicos";
+        const res = await apiFetch(url, { method, body: formData });
+
+        if (!res.ok) {
+          const data = await res.json();
+          modalErro.textContent = data.erro || "Erro ao salvar";
+          modalErro.classList.add("visible");
+          return;
+        }
+
+        fecharModal();
+        exibirSucesso(id ? "Médico atualizado!" : "Médico criado!");
+        carregar();
+      } catch (err) {
+        modalErro.textContent = "Erro de conexão";
+        modalErro.classList.add("visible");
+      }
+    });
+
+    async function excluir(id) {
+      if (!confirm("Tem certeza que deseja excluir este médico?")) return;
+      const res = await apiFetch(`/medicos/${id}`, { method: "DELETE" });
+      if (!res) return;
+      exibirSucesso("Médico removido!");
+      carregar();
+    }
+
+    carregar();
+  </script>
+</body>
+</html>

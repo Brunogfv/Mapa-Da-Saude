@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Admin | Mapa da Saúde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-card">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#0891B2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 16px">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+      </svg>
+      <h1>Admin</h1>
+      <p>Mapa da Saúde — Área administrativa</p>
+
+      <div class="erro" id="erro"></div>
+
+      <form id="formLogin">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="admin@mapadasaude.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" placeholder="admin123" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const API = "https://mapa-da-saude-production.up.railway.app";
+
+    document.getElementById("formLogin").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const erro = document.getElementById("erro");
+      erro.classList.remove("visible");
+
+      const email = document.getElementById("email").value;
+      const senha = document.getElementById("senha").value;
+
+      try {
+        const res = await fetch(`${API}/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, senha }),
+        });
+
+        if (!res.ok) {
+          const data = await res.json();
+          erro.textContent = data.erro || "Erro ao fazer login";
+          erro.classList.add("visible");
+          return;
+        }
+
+        const data = await res.json();
+        localStorage.setItem("admin_token", data.token);
+        localStorage.setItem("admin_email", data.email);
+        window.location.href = "dashboard.html";
+      } catch (err) {
+        erro.textContent = "Erro de conexão com o servidor";
+        erro.classList.add("visible");
+      }
+    });
+  </script>
+</body>
+</html>

@@ -168,3 +168,35 @@ body.modo-filtro .medicos-container {
 .btn-tentar-novamente:hover {
     background: #067a96;
 }
+
+/* Paginação */
+.paginacao {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 32px;
+}
+
+.btn-pagina {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background: #E2F5F0;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    color: #134E4A;
+    box-shadow: 4px 4px 8px #c8e0db, -4px -4px 8px #ffffff;
+    transition: box-shadow 0.2s;
+}
+
+.btn-pagina:hover {
+    box-shadow: 2px 2px 6px #c8e0db, -2px -2px 6px #ffffff;
+}
+
+.btn-pagina.ativo {
+    background: #0891B2;
+    color: #fff;
+    box-shadow: 4px 4px 10px rgba(8,145,178,0.3);
+}

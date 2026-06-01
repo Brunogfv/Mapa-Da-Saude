@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Admin | Mapa da Saúde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <header class="admin-header">
+    <a href="../index.html" class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0891B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+      </svg>
+      Admin
+    </a>
+    <div class="user-info">
+      <span id="userEmail"></span>
+      <button class="btn btn-sm" onclick="logout()">Sair</button>
+    </div>
+  </header>
+
+  <div class="admin-container">
+    <h1>Painel Administrativo</h1>
+    <p class="subtitle">Gerencie médicos, especialidades e mensagens de contato.</p>
+
+    <div class="nav-links">
+      <a href="dashboard.html" class="ativo" id="navDashboard">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a href="medicos.html">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Médicos
+      </a>
+      <a href="especialidades.html">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+        Especialidades
+      </a>
+      <a href="contatos.html">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contatos
+      </a>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+      <div style="background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:24px;text-align:center">
+        <div style="font-size:32px;font-weight:700;color:var(--primary)" id="totalMedicos">-</div>
+        <div style="font-size:14px;color:var(--muted);margin-top:4px">Médicos</div>
+      </div>
+      <div style="background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:24px;text-align:center">
+        <div style="font-size:32px;font-weight:700;color:var(--secondary)" id="totalEspecialidades">-</div>
+        <div style="font-size:14px;color:var(--muted);margin-top:4px">Especialidades</div>
+      </div>
+      <div style="background:var(--card-bg);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:24px;text-align:center">
+        <div style="font-size:32px;font-weight:700;color:var(--cta)" id="totalContatos">-</div>
+        <div style="font-size:14px;color:var(--muted);margin-top:4px">Mensagens</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/admin.js"></script>
+  <script>
+    if (!isAutenticado()) window.location.href = "login.html";
+    document.getElementById("userEmail").textContent = localStorage.getItem("admin_email");
+
+    async function carregar() {
+      try {
+        const [rMedicos, rEsps, rContatos] = await Promise.all([
+          apiFetch("/medicos?limite=1"),
+          apiFetch("/especialidades"),
+          apiFetch("/contatos"),
+        ]);
+
+        if (rMedicos) { const d = await rMedicos.json(); document.getElementById("totalMedicos").textContent = d.total; }
+        if (rEsps) { const d = await rEsps.json(); document.getElementById("totalEspecialidades").textContent = d.length; }
+        if (rContatos) { const d = await rContatos.json(); document.getElementById("totalContatos").textContent = d.length; }
+      } catch {}
+    }
+
+    carregar();
+  </script>
+</body>
+</html>

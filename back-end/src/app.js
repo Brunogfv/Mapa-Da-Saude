@@ -1,21 +1,25 @@
-// Importando as bibliotecas
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
-// Criação da aplicação
 const app = express();
 
-// Uso das bibliotecas
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Servir uploads estaticamente
+app.use("/uploads", express.static(path.resolve(__dirname, "../uploads")));
 
 // Rotas
+const authRoutes = require("./routes/auth.routes");
 const especialidadesRoutes = require("./routes/especialidades.routes");
 const medicosRoutes = require("./routes/medicos.routes");
+const contatosRoutes = require("./routes/contatos.routes");
 
-// Uso das rotas
+app.use("/auth", authRoutes);
 app.use("/especialidades", especialidadesRoutes);
 app.use("/medicos", medicosRoutes);
+app.use("/contatos", contatosRoutes);
 
-// Exportação do app
 module.exports = app;

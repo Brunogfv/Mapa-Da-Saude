@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contatos - Admin | Mapa da Saúde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <header class="admin-header">
+    <a href="dashboard.html" class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0891B2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+      </svg>
+      Admin
+    </a>
+    <div class="user-info">
+      <span id="userEmail"></span>
+      <button class="btn btn-sm" onclick="logout()">Sair</button>
+    </div>
+  </header>
+
+  <div class="admin-container">
+    <div class="nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="medicos.html">Médicos</a>
+      <a href="especialidades.html">Especialidades</a>
+      <a href="contatos.html" class="ativo">Contatos</a>
+    </div>
+
+    <h1>Mensagens de Contato</h1>
+    <p class="subtitle">Mensagens enviadas pelos usuários.</p>
+
+    <div id="lista"></div>
+  </div>
+
+  <script src="../js/admin.js"></script>
+  <script>
+    if (!isAutenticado()) window.location.href = "login.html";
+    document.getElementById("userEmail").textContent = localStorage.getItem("admin_email");
+
+    async function carregar() {
+      const res = await apiFetch("/contatos");
+      if (!res) return;
+      const data = await res.json();
+
+      const lista = document.getElementById("lista");
+
+      if (data.length === 0) {
+        lista.innerHTML = '<div class="vazia">Nenhuma mensagem recebida.</div>';
+        return;
+      }
+
+      lista.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Mensagem</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${data.map((c) => `
+              <tr>
+                <td data-label="Nome"><strong>${c.nome}</strong></td>
+                <td data-label="Email"><a href="mailto:${c.email}" style="color:var(--primary)">${c.email}</a></td>
+                <td data-label="Mensagem" style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.mensagem}</td>
+                <td data-label="Data" style="color:var(--muted);font-size:13px">${new Date(c.criado_em).toLocaleString("pt-BR")}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    carregar();
+  </script>
+</body>
+</html>
