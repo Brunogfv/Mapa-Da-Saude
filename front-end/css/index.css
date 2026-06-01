@@ -17,9 +17,22 @@
     font-size: 50px;
 }
 
-.home img {
-    width: 217px;
-    height: 99px;
+.home-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.home-logo svg {
+    width: 48px;
+    height: 48px;
+}
+
+.home-logo span {
+    font-size: 42px;
+    font-weight: 700;
+    color: #134E4A;
+    letter-spacing: -1px;
 }
 
 .home p {
@@ -58,6 +71,20 @@
     font-size: 20px;
 }
 
+.guia-container .icone-hospital {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.guia-container .icone-hospital svg {
+    width: 200px;
+    height: 200px;
+}
+
+
 .cards {    
     width: 100%;
     display: flex;
@@ -77,21 +104,18 @@
 }
 
 .card {
-    background-color: #E1E1E1;
+    background-color: #ffffff;
     border-radius: 20px;
     overflow: hidden;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     display: flex;
     flex-direction: column;
-
-    /* max-width: 100%; */
-    /* border: 1px, solid, #AAAAAA;
-    height: 450px; */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .card:hover {
-    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
 }
 
 .card-container {
@@ -99,14 +123,6 @@
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
     width: 100%;
-
-    /* display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 100px; */
-    /* margin: 50px; */
-    /* width: 80%; */
 }
 
 .texto {
@@ -114,10 +130,6 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-
-    /* width: 400px;
-    margin-left: 30px;
-    margin-top: 20px; */
 }
 
 .texto h3 {
@@ -132,11 +144,6 @@
     width: 100%;
     height: 200px;
     object-fit: cover;
-
-    /* width: 431px;
-    height: 319px;
-    object-fit: cover;
-    border-radius: 35px 35px 0px 0px; */
 }
 
 @media (max-width: 768px) {
@@ -159,9 +166,17 @@
         font-size: 18px;
     }
 
-    .home img {
-        width: 80px;
-        height: 40px;
+    .home-logo {
+        gap: 6px;
+    }
+
+    .home-logo svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .home-logo span {
+        font-size: 20px;
     }
 
     .home p {

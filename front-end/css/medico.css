@@ -27,11 +27,131 @@
 }
 
 .medico-info h4 {
-    color: #007aff;
+    color: #0891B2;
     margin-bottom: 15px;
 }
 
 .medico-info p {
     font-size: 18px;
     margin-bottom: 20px;
+}
+
+.btn-voltar {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #0891B2;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+.btn-voltar:hover {
+    background: #067a96;
+}
+
+/* Loading skeleton for detail page */
+.skeleton-detalhe {
+    display: flex;
+    gap: 30px;
+    width: 100%;
+}
+
+.skeleton-detalhe .skeleton-img-lg {
+    width: 280px;
+    height: 280px;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #d0d0d0 25%, #f0f0f0 50%, #d0d0d0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    flex-shrink: 0;
+}
+
+.skeleton-detalhe .skeleton-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.skeleton-detalhe .skeleton-line {
+    height: 20px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #d0d0d0 25%, #f0f0f0 50%, #d0d0d0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+.skeleton-detalhe .skeleton-line:first-child {
+    width: 60%;
+    height: 32px;
+}
+
+.skeleton-detalhe .skeleton-line:nth-child(2) {
+    width: 40%;
+    height: 24px;
+}
+
+.skeleton-detalhe .skeleton-line:nth-child(3) {
+    height: 80px;
+}
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Error state */
+.erro-carregamento {
+    text-align: center;
+    width: 100%;
+    padding: 40px 20px;
+}
+
+.erro-carregamento p {
+    font-size: 18px;
+    color: #dc2626;
+    margin-bottom: 16px;
+}
+
+.btn-tentar-novamente {
+    padding: 10px 24px;
+    background: #0891B2;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+.btn-tentar-novamente:hover {
+    background: #067a96;
+}
+
+@media (max-width: 768px) {
+    .medico-container {
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .medico-foto img {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .skeleton-detalhe {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .skeleton-detalhe .skeleton-img-lg {
+        width: 200px;
+        height: 200px;
+    }
 }

@@ -33,9 +33,35 @@ if (temFiltro) {
     document.body.classList.add("modo-filtro");
 }
 
+function mostrarSkeleton() {
+    container.innerHTML = "";
+    for (let i = 0; i < 6; i++) {
+        const skeleton = document.createElement("div");
+        skeleton.className = "skeleton-card";
+        skeleton.innerHTML = `
+            <div class="skeleton-img"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+        `;
+        container.appendChild(skeleton);
+    }
+}
+
+function mostrarErro(mensagem) {
+    container.innerHTML = `
+        <div class="erro-carregamento">
+            <p>${mensagem}</p>
+            <button class="btn-tentar-novamente">Tentar novamente</button>
+        </div>
+    `;
+    document.querySelector(".btn-tentar-novamente").addEventListener("click", carregarMedicos);
+}
+
 // Função Principal
 function carregarMedicos() {
-    let url = "http://localhost:3000/medicos";
+    mostrarSkeleton();
+
+    let url = `${API_BASE_URL}/medicos`;
 
     const params = [];
 
@@ -52,7 +78,10 @@ function carregarMedicos() {
     }
 
     fetch(url)
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) throw new Error(`Erro ${res.status}`);
+            return res.json();
+        })
         .then(medicos => {
             container.innerHTML = "";
 
@@ -82,7 +111,7 @@ function carregarMedicos() {
         })
         .catch(err => {
             console.error("Erro:", err);
-            container.innerHTML = "<p>Erro ao carregar médicos</p>";
+            mostrarErro("Erro ao carregar médicos. Verifique sua conexão.");
         });
 }
 

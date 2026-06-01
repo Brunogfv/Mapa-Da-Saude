@@ -1,8 +1,8 @@
 // Importar o arquivo do servidor
 const app = require("./app");
 
-// Porta escolhida
-const PORT = 3000;
+// Porta escolhida (Railway usa process.env.PORT)
+const PORT = process.env.PORT || 3000;
 
 // Inicia o servidor
 app.listen(PORT, () => {

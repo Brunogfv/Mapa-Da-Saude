@@ -15,7 +15,10 @@
 <body class="pagina-medicos">
     <header>
         <div class="container">
-            <img src="./imgs/mapa_saude.png" alt="Logo do Mapa da Saúde">
+            <a href="index.html" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                Mapa da Saúde
+            </a>
             <nav>
                 <a href="index.html">Home</a>
                 <a href="especialidade.html">Especialidade</a>
@@ -34,8 +37,9 @@
 
         <!-- Barra de busca -->
         <div class="filtro-medicos">
+            <label for="buscaNome" class="sr-only">Buscar por nome ou especialidade</label>
             <input type="text" id="buscaNome" placeholder="Buscar por nome ou especialidade">
-            <button id="btnBuscar">Buscar</button>
+            <button id="btnBuscar" aria-label="Buscar médicos">Buscar</button>
         </div>
 
         <section class="medicos">
@@ -50,10 +54,11 @@
         </section>
     </main>
 
-</body>
     <footer class="footer">
         <p>Mapa da Saúde - Garanhuns © 2025</p>
     </footer>
 
+    <script src="./js/config.js"></script>
     <script src="./js/medicos.js"></script>
+</body>
 </html>

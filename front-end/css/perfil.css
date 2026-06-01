@@ -1,13 +1,13 @@
 :root {
-    --bg: #f6f7fb;
+    --bg: #F0FDFA;
     --card: #ffffff;
-    --accent: #1f6feb;
-    --muted: #6b7280;
+    --accent: #0891B2;
+    --muted: #475569;
     --maxw: 1000px
 }
 
 body {
-    background-color: #E9E9E9;
+    background-color: #F0FDFA;
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -14,36 +14,12 @@
     font-size: 36px;
     font-weight: bold;
     margin-bottom: 10px;
-    color: #333;
+    color: #134E4A;
 }
 
 .hero p {
     font-size: 16px;
-    color: #666;
-}
-
-.search-bar {
-    display: flex;
-}
-
-.search-bar input {
-    font-size: 18px;
-    width: 100%;
-    height: 60px;
-    border: none;
-    border-radius: 5px 0px 0px 5px;
-    padding-left: 15px;
-}
-
-.search-bar button {
-    width: 135px;
-    height: 60px;
-    background-color: #007AFF;
-    color: #fff;
-    font-size: 20px;
-    border: none;
-    border-radius: 0px 5px 5px 0px;
-    cursor: pointer;
+    color: #475569;
 }
 
 .medicos {
@@ -65,11 +41,6 @@
     margin-top: 30px;
 }
 
-/* body.modo-filtro .medicos-container {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
-    justify-content: center;
-} */
-
 .medico-card {
     max-width: 320px;
     display: flex;
@@ -79,13 +50,14 @@
     border-radius: 20px;
     padding: 20px;
     text-align: center;
-    transition: 0.3s;
+    transition: box-shadow 0.3s ease;
     cursor: pointer;
     overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .medico-card:hover {
-    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
 }
 
 .medico-card img {
@@ -98,11 +70,16 @@
 .medico-card button {
     margin-top: 15px;
     padding: 10px 15px;
-    background: #007aff;
+    background: #0891B2;
     color: white;
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.medico-card button:hover {
+    background: #067a96;
 }
 
 .medico-card .descricao {
@@ -111,138 +88,83 @@
     margin-top: 8px;
 }
 
-/* Flex de Especialidades */
-.specialties-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-}
-
-.specialty-card {
-    background-color: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease;
-    display: flex;
-    flex-direction: column;
-    height: 350px;
-    width: 100%;
-    max-width: 500px;
-    flex: 1 1 calc(50% - 10px);
-}
-
-
-@media (max-width: 768px) {
-    .specialty-card {
-        flex: 1 1 100%;
-    }
-}
-
-.doctors-grid {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    width: 80%;
-    margin: auto;
-    cursor: pointer;
-}
-
-/* body.modo-filtro .medicos-container {
-    grid-template-columns: 1fr;
-} */
-
-.doctor-card {
-    display: flex;
-    flex-direction: column;
-    margin-top: 40px;
-    background-color: #E1E1E1;
-    width: 433px;
-    border-radius: 35px;
-}
-
-.doctor-card:hover {
-    transform: translateY(-5px);
-}
-
-.doctor-card h3 {
-    font-size: 36px;
-}
-
-.doctor-card p {
-    font-size: 20px;
-}
-
-.doctor-card img {
-    height: 309px;
-    width: 433px;
-    object-fit: cover;
-    border-radius: 35px 35px 0px 0px;
-}
-
-.specialty-card {
-    background-color: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease;
-    display: flex;
-    flex-direction: column;
-    height: 350px;
-}
-
-.specialty-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    object-position: center;
-}
-
-.card-content {
-    padding: 15px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.specialty-card:hover {
-    transform: translateY(-5px);
-}
-
-.card-content {
-    padding: 15px;
-}
-
-.card-content h3 {
-    font-size: 20px;
-    margin-bottom: 8px;
-    color: #333;
-}
-
-.card-content p {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 15px;
-    line-height: 1.4;
-}
-
-.view-btn {
-    color: #3a50e0;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.view-btn:hover {
-    text-decoration: underline;
-}
-
 .nenhum-medico {
     text-align: center;
     font-size: 18px;
     color: #555555;
     grid-column: 1 / -1;
     margin-top: 40px;
+}
+
+body.filtro-especialidade .medico-card {
+    max-width: 320px;
+    margin: 0 auto;
+}
+
+body.modo-filtro .medicos-container {
+    justify-content: center;
+}
+
+/* Loading skeleton */
+.skeleton-card {
+    max-width: 320px;
+    background: #e1e1e1;
+    border-radius: 20px;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.skeleton-card .skeleton-img {
+    width: 100%;
+    height: 250px;
+    border-radius: 15px;
+    background: linear-gradient(90deg, #d0d0d0 25%, #f0f0f0 50%, #d0d0d0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+.skeleton-card .skeleton-line {
+    height: 16px;
+    margin-top: 16px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #d0d0d0 25%, #f0f0f0 50%, #d0d0d0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+.skeleton-card .skeleton-line:last-child {
+    width: 60%;
+}
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Error state */
+.erro-carregamento {
+    text-align: center;
+    grid-column: 1 / -1;
+    padding: 40px 20px;
+}
+
+.erro-carregamento p {
+    font-size: 18px;
+    color: #dc2626;
+    margin-bottom: 16px;
+}
+
+.btn-tentar-novamente {
+    padding: 10px 24px;
+    background: #0891B2;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+.btn-tentar-novamente:hover {
+    background: #067a96;
 }

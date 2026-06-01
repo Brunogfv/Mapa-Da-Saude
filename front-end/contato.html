@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&family=Noto+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/contato.css">
@@ -14,7 +14,10 @@
 <body>
     <header>
         <div class="container">
-            <img src="./imgs/mapa_saude.png" alt="">
+            <a href="index.html" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                Mapa da Saúde
+            </a>
             <nav>
                 <a href="index.html">Home</a>
                 <a href="especialidade.html">Especialidade</a>
@@ -29,10 +32,14 @@
             <div class="contato-container">
                 <h2>Contato</h2>
                 <form action="" id="formContato">
+                    <label for="nome" class="sr-only">Nome</label>
                     <input type="text" name="nome" id="nome" placeholder="Nome" required>
+                    <label for="email" class="sr-only">E-mail</label>
                     <input type="email" name="email" id="email" placeholder="E-mail" required>
+                    <label for="mensagem" class="sr-only">Mensagem</label>
                     <textarea name="mensagem" id="mensagem" placeholder="Mensagem" required></textarea>
-                    <input type="submit" value="Enviar Mensagem">
+                    <input type="submit" value="Enviar Mensagem" aria-label="Enviar mensagem de contato">
+                    <p id="formMensagem" class="form-mensagem" role="alert"></p>
                 </form>
             </div>
         </section>
@@ -40,14 +47,18 @@
             <div class="dados-container">
                 <div class="endereco">
                     <div class="endereco-texto">
-                        <img src="./imgs/localizacao01-removebg-preview.png" alt="">
+                        <span class="icone-svg" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#0891B2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+                        </span>
                         <h3>Endereço</h3>
                     </div>
                     <p>Rua Um, 123 Garanhuns - PE</p>
                 </div>
                 <div class="telefone">
                     <div class="telefone-texto">
-                        <img src="./imgs/telefone01-removebg-preview.png" alt="">
+                        <span class="icone-svg" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#0891B2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>
+                        </span>
                         <h3>Telefone</h3>
                     </div>
                     <p>(87) 9 8765 4321</p>
@@ -70,13 +81,17 @@
             contatos.push(contato);
             localStorage.setItem("contatos", JSON.stringify(contatos));
 
-            alert("Mensagem enviada com sucesso!");
+            const msg = document.getElementById("formMensagem");
+            msg.textContent = "Mensagem enviada com sucesso!";
+            msg.style.display = "block";
 
             this.reset();
+            setTimeout(() => { msg.style.display = "none"; }, 4000);
         });
     </script>
+
+    <footer>
+        <p>Mapa da Saúde - Garanhuns © 2025</p>
+    </footer>
 </body>
-<footer>
-    <p>Mapa da Saúde - Garanhuns © 2025</p>
-</footer>
 </html>
