@@ -5,7 +5,7 @@
     background-position: center;
     min-height: 600px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: center;
     padding: 40px 60px;
 }
@@ -14,7 +14,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(to right, rgba(240, 253, 250, 0.92) 30%, rgba(240, 253, 250, 0.4) 60%, transparent 80%);
+    background: linear-gradient(to left, rgba(240, 253, 250, 0.15) 0%, transparent 50%);
     pointer-events: none;
 }
 
@@ -25,6 +25,9 @@
     flex-direction: column;
     max-width: 520px;
     width: 100%;
+    background: rgba(255, 255, 255, 0.55);
+    padding: 24px 28px;
+    border-radius: 16px;
 }
 
 .home h2 {
@@ -167,11 +170,12 @@
 
 @media (max-width: 1024px) {
     .home {
-        padding: 30px 40px;
+        padding: 30px 20px;
     }
 
     .home div {
-        max-width: 400px;
+        max-width: 380px;
+        padding: 16px 20px;
     }
 
     .home p {
@@ -191,16 +195,17 @@
     .home {
         min-height: 400px;
         justify-content: flex-end;
-        padding: 20px;
+        align-items: flex-end;
+        padding: 16px;
     }
 
     .home::before {
-        background: linear-gradient(to right, rgba(240, 253, 250, 0.9) 0%, rgba(240, 253, 250, 0.85) 100%);
+        background: linear-gradient(to top, rgba(240, 253, 250, 0.1) 0%, transparent 40%);
     }
 
     .home div {
-        margin-right: 0;
         max-width: 100%;
+        padding: 14px 16px;
         align-items: flex-end;
         text-align: right;
     }
