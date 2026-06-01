@@ -102,14 +102,16 @@ function carregarMedicos() {
         .then(data => {
             container.innerHTML = "";
 
-            if (!data.dados || data.dados.length === 0) {
+            // Suporta formato novo {dados, total} e antigo (array direto)
+            const medicos = Array.isArray(data) ? data : (data.dados || []);
+            totalPaginas = Array.isArray(data) ? 1 : (data.totalPaginas || 1);
+
+            if (medicos.length === 0) {
                 container.innerHTML = `<p class="nenhum-medico">Nenhum médico encontrado.</p>`;
                 return;
             }
 
-            totalPaginas = data.totalPaginas;
-
-            data.dados.forEach(medico => {
+            medicos.forEach(medico => {
                 const card = document.createElement("div");
                 card.classList.add("medico-card");
 
