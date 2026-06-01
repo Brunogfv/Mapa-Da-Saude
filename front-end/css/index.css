@@ -190,7 +190,7 @@
 @media (max-width: 768px) {
     .home {
         min-height: 400px;
-        justify-content: center;
+        justify-content: flex-end;
         padding: 20px;
     }
 
@@ -201,8 +201,8 @@
     .home div {
         margin-right: 0;
         max-width: 100%;
-        align-items: center;
-        text-align: center;
+        align-items: flex-end;
+        text-align: right;
     }
 
     .home h2 {
