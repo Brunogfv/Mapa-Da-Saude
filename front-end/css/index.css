@@ -1,20 +1,30 @@
 .home {
+    position: relative;
     background-image: url(../imgs/banner001.png);
     background-size: cover;
     background-position: center;
     min-height: 600px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
-    padding: 40px;
+    padding: 40px 60px;
+}
+
+.home::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(240, 253, 250, 0.92) 30%, rgba(240, 253, 250, 0.4) 60%, transparent 80%);
+    pointer-events: none;
 }
 
 .home div {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
-    max-width: 500px;
+    max-width: 520px;
     width: 100%;
-    margin-right: 60px;
 }
 
 .home h2 {
@@ -156,8 +166,11 @@
 }
 
 @media (max-width: 1024px) {
+    .home {
+        padding: 30px 40px;
+    }
+
     .home div {
-        margin-right: 40px;
         max-width: 400px;
     }
 
@@ -179,6 +192,10 @@
         min-height: 400px;
         justify-content: center;
         padding: 20px;
+    }
+
+    .home::before {
+        background: linear-gradient(to right, rgba(240, 253, 250, 0.9) 0%, rgba(240, 253, 250, 0.85) 100%);
     }
 
     .home div {
